@@ -1,7 +1,6 @@
 package com.example.theme
 
 import com.intellij.ide.ui.laf.darcula.DarculaLaf
-import com.intellij.ide.ui.laf.darcula.ui.DarculaTextFieldUI
 import com.intellij.util.ui.JBUI
 import java.awt.Component
 import java.awt.Graphics
@@ -13,13 +12,12 @@ import javax.swing.UIDefaults
 
 class MaterialLaf : DarculaLaf() {
 
+    override fun getName(): String = "Dark"
+
     override fun getDefaults(): UIDefaults {
         val defaults = super.getDefaults()
 
-        defaults["ButtonUI"] = MaterialButtonUI::class.java.name
-        defaults[MaterialButtonUI::class.java.name] = MaterialButtonUI::class.java
 
-        defaults["Button.border"] = MaterialButtonBorder()
 
         defaults["Button.arc"] = 0
         defaults["Component.arc"] = 0

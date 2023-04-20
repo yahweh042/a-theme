@@ -2,18 +2,14 @@ package com.example.theme
 
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaComboBoxUI
-import com.intellij.openapi.util.ColoredItem
 import com.intellij.ui.JBColor
-import com.intellij.util.ObjectUtils
 import com.intellij.util.ui.JBInsets
 import com.intellij.util.ui.JBUI
-import com.intellij.util.ui.UIUtil
 import java.awt.*
 import java.awt.geom.Line2D
 import java.awt.geom.Path2D
 import java.awt.geom.Rectangle2D
 import javax.swing.JComponent
-import javax.swing.plaf.UIResource
 
 
 class MaterialComboBoxUI : DarculaComboBoxUI() {
@@ -60,12 +56,20 @@ class MaterialComboBoxUI : DarculaComboBoxUI() {
 
     override fun paintBorder(c: Component, g2: Graphics2D, bw: Float, r: Rectangle, lw: Float, arc: Float) {
         if (!comboBox.isEnabled) {
-            g2.stroke = BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, floatArrayOf(1.0f, 2.0f), 0.0f)
+            g2.stroke =
+                BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, floatArrayOf(1.0f, 2.0f), 0.0f)
         }
         if (comboBox.hasFocus()) {
             g2.color = JBColor.BLUE
         }
-        g2.draw(Line2D.Double(r.x.toDouble(), (r.height - 1).toDouble(), (r.x + r.width).toDouble(), (r.height - 1).toDouble()))
+        g2.draw(
+            Line2D.Double(
+                r.x.toDouble(),
+                (r.height - 1).toDouble(),
+                (r.x + r.width).toDouble(),
+                (r.height - 1).toDouble()
+            )
+        )
     }
 
     override fun paint(g: Graphics, c: JComponent) {

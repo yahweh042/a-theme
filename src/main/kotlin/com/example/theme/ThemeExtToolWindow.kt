@@ -5,33 +5,49 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.components.JBScrollPane
+import com.intellij.ui.dsl.builder.bindIntText
+import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
-import javax.swing.JButton
-import javax.swing.JTextField
 
 class ThemeExtToolWindow(
-        private val project: Project,
-        private val toolWindow: ToolWindow
+    private val project: Project,
+    private val toolWindow: ToolWindow
 ) : SimpleToolWindowPanel(true, true), DataProvider {
 
-    private lateinit var listRowHeight: JTextField
-    private lateinit var treeRowHeight: JTextField
-
     private val themeExtConfig = ThemeExtConfig.getInstance()
+    private val items = arrayListOf("Material", "Default")
 
     private val panel = panel {
         row("ListRowHeight:") {
-            listRowHeight = JTextField(themeExtConfig.listRowHeight.toString())
-            cell(listRowHeight)
+            textField().bindIntText(
+                getter = { themeExtConfig.listRowHeight },
+                setter = { themeExtConfig.listRowHeight = it })
         }
         row("TreeRowHeight:") {
-            treeRowHeight = JTextField(themeExtConfig.treeRowHeight.toString())
-            cell(treeRowHeight)
+            textField().bindIntText(
+                getter = { themeExtConfig.treeRowHeight },
+                setter = { themeExtConfig.treeRowHeight = it })
+        }
+        row("ButtonStyle:") {
+            comboBox(items).bindItem(
+                getter = { themeExtConfig.buttonStyle },
+                setter = {
+                    if (it != null) {
+                        themeExtConfig.buttonStyle = it
+                    }
+                }
+            )
+        }
+        row("ComboBoxStyle:") {
+            comboBox(items).bindItem(
+                getter = { themeExtConfig.comboBoxStyle },
+                setter = { value -> themeExtConfig.comboBoxStyle = value!!}
+            )
+            comboBox(items).applyToComponent {
+            }
         }
         row {
             button("Apply") {
-                themeExtConfig.listRowHeight = listRowHeight.text.toInt()
-                themeExtConfig.treeRowHeight = treeRowHeight.text.toInt()
                 themeExtConfig.applyChange()
             }
             cell()
