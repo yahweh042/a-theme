@@ -10,38 +10,30 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.xmlb.XmlSerializerUtil
-import com.intellij.util.xmlb.annotations.Property
 import javax.swing.UIDefaults
 import javax.swing.UIManager
 
 @State(name = "ThemeExtConfig", storages = [Storage("theme_ext_config.xml")])
-class ThemeExtConfig : PersistentStateComponent<ThemeExtConfig> {
+class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeExtConfig> {
 
-    @Property
-    var listRowHeight: Int = 24
+    private val themeExtConfig = ThemeExtConfig()
 
-    @Property
-    var treeRowHeight: Int = 24
-
-    @Property
-    var buttonStyle: String = "Material"
-
-    @Property
-    var fieldStyle: String = "Material"
-
-    @Property
-    var comboBoxStyle: String = "Material"
-
-    override fun getState(): ThemeExtConfig = this
+    override fun getState(): ThemeExtConfig = themeExtConfig
 
     override fun loadState(state: ThemeExtConfig) {
         XmlSerializerUtil.copyBean(state, this)
     }
 
+    fun setListRowHeight(listRowHeight: Int) {
+        themeExtConfig.listRowHeight = listRowHeight
+    }
+
+    fun getListRowHeight() = themeExtConfig.listRowHeight
+
     fun applyChange() {
         val defaults = UIManager.getDefaults()
-        defaults["List.rowHeight"] = JBUIScale.scale(this.listRowHeight)
-        defaults["Tree.rowHeight"] = JBUIScale.scale(this.treeRowHeight)
+        defaults["List.rowHeight"] = JBUIScale.scale(state.listRowHeight)
+        defaults["Tree.rowHeight"] = JBUIScale.scale(state.treeRowHeight)
 
         applyButtonStyle(defaults)
         applyComboBoxStyle(defaults)
@@ -50,7 +42,7 @@ class ThemeExtConfig : PersistentStateComponent<ThemeExtConfig> {
     }
 
     private fun applyButtonStyle(defaults: UIDefaults) {
-        when (this.buttonStyle) {
+        when (state.buttonStyle) {
             "Material" -> {
                 defaults["ButtonUI"] = MaterialButtonUI::class.java.name
                 defaults[MaterialButtonUI::class.java.name] = MaterialButtonUI::class.java
@@ -66,8 +58,8 @@ class ThemeExtConfig : PersistentStateComponent<ThemeExtConfig> {
     }
 
     private fun applyComboBoxStyle(defaults: UIDefaults) {
-        println(this.comboBoxStyle)
-        when (this.comboBoxStyle) {
+        println(state.comboBoxStyle)
+        when (state.comboBoxStyle) {
             "Material" -> {
                 defaults["ComboBoxUI"] = MaterialComboBoxUI::class.java.name
                 defaults[MaterialComboBoxUI::class.java.name] = MaterialComboBoxUI::class.java
@@ -83,7 +75,15 @@ class ThemeExtConfig : PersistentStateComponent<ThemeExtConfig> {
     companion object {
 
         @JvmStatic
-        fun getInstance(): ThemeExtConfig = ApplicationManager.getApplication().getService(ThemeExtConfig::class.java)
+        fun getInstance(): ThemeExtConfigState = ApplicationManager.getApplication().getService(ThemeExtConfigState::class.java)
 
     }
+
+    data class ThemeExtConfig(
+        var listRowHeight: Int = 24,
+        var treeRowHeight: Int = 24,
+        var buttonStyle: String = "Material",
+        var fieldStyle: String = "Material",
+        var comboBoxStyle: String = "Material",
+    )
 }

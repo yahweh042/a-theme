@@ -26,9 +26,8 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <!--<themeProvider id="aa3b5a9f-2175-414b-be83-6a651d1e7e00" path="/Material.theme.json"/>-->
-        <applicationService serviceImplementation="com.example.theme.ThemeExtConfig" id="ThemeConfig"/>
+        <applicationService serviceImplementation="com.example.theme.ThemeExtConfigState" id="ThemeConfig"/>
         <applicationConfigurable instance="com.example.theme.ThemeExtSetting" />
-        <toolWindow id="ThemeExtConfig" anchor="right" secondary="true" factoryClass="com.example.theme.ThemeExtToolWindowFactory"/>
     </extensions>
 
     <applicationListeners>

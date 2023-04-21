@@ -1,12 +1,7 @@
 package com.example.theme
 
 import com.intellij.ide.AppLifecycleListener
-import com.intellij.ide.ui.LafManager
-import com.intellij.ide.ui.UISettings
-import com.intellij.ide.ui.laf.LafManagerImpl
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.util.SystemInfo
-import javax.swing.UIManager
 
 class StartListener : AppLifecycleListener {
 
@@ -26,7 +21,7 @@ class StartListener : AppLifecycleListener {
 //
 
         ApplicationManager.getApplication().invokeAndWait {
-            ThemeExtConfig.getInstance().applyChange()
+            ThemeExtConfigState.getInstance().applyChange()
         }
 
     }
