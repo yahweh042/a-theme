@@ -42,6 +42,10 @@ class MaterialButtonUI : DarculaButtonUI() {
         }
     }
 
+    override fun paintContents(g: Graphics, b: AbstractButton) {
+        super.paintContents(g, b)
+    }
+
     override fun paintDecorations(g: Graphics2D, c: JComponent): Boolean {
         val button = c as AbstractButton
         if (!button.isContentAreaFilled) {
