@@ -10,20 +10,6 @@ import java.lang.reflect.Modifier
 class StartListener : AppLifecycleListener {
 
     override fun appFrameCreated(commandLineArgs: MutableList<String>) {
-//        UIManager.setLookAndFeel(MaterialLaf())
-//        LafManager.getInstance().updateUI()
-//
-//        val uiSettings = UISettings.getInstance()
-//        val overrideLafFonts = uiSettings.overrideLafFonts
-//        if (overrideLafFonts) {
-//
-//        } else if (SystemInfo.isMac) {
-//            val lookAndFeelDefaults = UIManager.getLookAndFeelDefaults()
-//            LafManagerImpl.installMacOSXFonts(lookAndFeelDefaults)
-//        }
-//
-//
-
         val privateLookupIn = MethodHandles.privateLookupIn(Field::class.java, MethodHandles.lookup())
         val findVarHandle = privateLookupIn.findVarHandle(Field::class.java, "modifiers", Integer.TYPE)
 
@@ -35,11 +21,11 @@ class StartListener : AppLifecycleListener {
         findVarHandle.set(field, field.modifiers and Modifier.FINAL)
         field.isAccessible = false
 
+        replaceStripeButton()
 
         ApplicationManager.getApplication().invokeAndWait {
             ThemeExtConfigState.getInstance().applyChange()
         }
-
 
     }
 
