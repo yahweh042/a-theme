@@ -35,6 +35,11 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["List.rowHeight"] = JBUIScale.scale(state.listRowHeight)
         defaults["Tree.rowHeight"] = JBUIScale.scale(state.treeRowHeight)
 
+        defaults["CheckBoxUI"] = ACheckBoxUI::class.java.name
+        defaults[ACheckBoxUI::class.java.name] = ACheckBoxUI::class.java
+
+        defaults["CheckBox.border"] = ACheckBoxBorder()
+
         applyButtonStyle(defaults)
         applyComboBoxStyle(defaults)
 
@@ -44,9 +49,9 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     private fun applyButtonStyle(defaults: UIDefaults) {
         when (state.buttonStyle) {
             "Material" -> {
-                defaults["ButtonUI"] = MaterialButtonUI::class.java.name
-                defaults[MaterialButtonUI::class.java.name] = MaterialButtonUI::class.java
-                defaults["Button.border"] = MaterialButtonBorder()
+                defaults["ButtonUI"] = AButtonUI::class.java.name
+                defaults[AButtonUI::class.java.name] = AButtonUI::class.java
+                defaults["Button.border"] = AButtonBorder()
             }
 
             else -> {
@@ -61,8 +66,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         println(state.comboBoxStyle)
         when (state.comboBoxStyle) {
             "Material" -> {
-                defaults["ComboBoxUI"] = MaterialComboBoxUI::class.java.name
-                defaults[MaterialComboBoxUI::class.java.name] = MaterialComboBoxUI::class.java
+                defaults["ComboBoxUI"] = AComboBoxUI::class.java.name
+                defaults[AComboBoxUI::class.java.name] = AComboBoxUI::class.java
             }
 
             else -> {

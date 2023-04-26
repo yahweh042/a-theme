@@ -17,9 +17,10 @@ class StartListener : AppLifecycleListener {
         val field = ActionButtonLook::class.java.getDeclaredField("SYSTEM_LOOK")
         field.isAccessible = true
         findVarHandle.set(field, field.modifiers and Modifier.FINAL.inv())
-        field.set(null, MaterialActionButtonLook())
+        field.set(null, AActionButtonLook())
         findVarHandle.set(field, field.modifiers and Modifier.FINAL)
         field.isAccessible = false
+
 
         replaceStripeButton()
 

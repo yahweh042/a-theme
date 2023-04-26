@@ -11,7 +11,7 @@ import java.awt.geom.Path2D
 import java.awt.geom.RoundRectangle2D
 import javax.swing.JComponent
 
-class MaterialButtonBorder : DarculaButtonPainter() {
+class AButtonBorder : DarculaButtonPainter() {
 
     override fun paintBorder(component: Component, graphics: Graphics, x: Int, y: Int, width: Int, height: Int) {
         val g2 = graphics.create() as Graphics2D

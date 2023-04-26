@@ -4,7 +4,7 @@ import com.intellij.openapi.actionSystem.impl.IdeaActionButtonLook
 import java.awt.*
 import java.awt.geom.RoundRectangle2D
 
-class MaterialActionButtonLook : IdeaActionButtonLook() {
+class AActionButtonLook : IdeaActionButtonLook() {
 
     override fun paintLookBackground(g: Graphics, rect: Rectangle, color: Color) {
         val g2 = g.create() as Graphics2D
@@ -18,7 +18,7 @@ class MaterialActionButtonLook : IdeaActionButtonLook() {
                     rect.y.toFloat(),
                     rect.width.toFloat(),
                     rect.height.toFloat(),
-                    rect.width.toFloat(),
+                    rect.height.toFloat(),
                     rect.height.toFloat()
                 )
             )

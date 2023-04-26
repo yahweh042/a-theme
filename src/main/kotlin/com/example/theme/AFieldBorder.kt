@@ -15,7 +15,7 @@ import javax.swing.JComboBox
 import javax.swing.JComponent
 import javax.swing.text.JTextComponent
 
-class MaterialFieldBorder : DarculaTextBorder() {
+class AFieldBorder : DarculaTextBorder() {
 
     override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
         if ((c as JComponent).getClientProperty("JTextField.Search.noBorderRing") == true) {

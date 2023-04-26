@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D
 import javax.swing.JComponent
 
 
-class MaterialComboBoxUI : DarculaComboBoxUI() {
+class AComboBoxUI : DarculaComboBoxUI() {
 
     private val myBorderCompensation: Insets = JBUI.insets(DEFAULT_BORDER_COMPENSATION)
     private val myArc = 5f
@@ -108,8 +108,8 @@ class MaterialComboBoxUI : DarculaComboBoxUI() {
     companion object {
 
         @JvmStatic
-        fun createUI(component: JComponent): MaterialComboBoxUI {
-            return MaterialComboBoxUI()
+        fun createUI(component: JComponent): AComboBoxUI {
+            return AComboBoxUI()
         }
 
     }

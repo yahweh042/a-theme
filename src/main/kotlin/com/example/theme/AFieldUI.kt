@@ -4,7 +4,7 @@ import com.intellij.ide.ui.laf.darcula.ui.DarculaTextFieldUI
 import java.awt.Graphics
 import javax.swing.JComponent
 
-class MaterialFieldUI : DarculaTextFieldUI() {
+class AFieldUI : DarculaTextFieldUI() {
 
     override fun paintBackground(g: Graphics?) {
 
@@ -14,8 +14,8 @@ class MaterialFieldUI : DarculaTextFieldUI() {
     companion object {
 
         @JvmStatic
-        fun createUI(c: JComponent): MaterialFieldUI {
-            return MaterialFieldUI()
+        fun createUI(c: JComponent): AFieldUI {
+            return AFieldUI()
         }
     }
 

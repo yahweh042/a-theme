@@ -21,7 +21,7 @@ import javax.swing.JComponent
 import javax.swing.UIManager
 
 
-class MaterialButtonUI : DarculaButtonUI() {
+class AButtonUI : DarculaButtonUI() {
 
     override fun installDefaults(b: AbstractButton) {
         super.installDefaults(b)
@@ -96,8 +96,8 @@ class MaterialButtonUI : DarculaButtonUI() {
 
     companion object {
         @JvmStatic
-        fun createUI(component: JComponent): MaterialButtonUI {
-            return MaterialButtonUI()
+        fun createUI(component: JComponent): AButtonUI {
+            return AButtonUI()
         }
     }
 

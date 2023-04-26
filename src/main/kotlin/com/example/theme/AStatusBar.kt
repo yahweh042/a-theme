@@ -1,4 +1,4 @@
 package com.example.theme
 
-class MaterialStatusBar {
+class AStatusBar {
 }

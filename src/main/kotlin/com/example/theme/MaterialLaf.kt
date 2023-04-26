@@ -46,13 +46,13 @@ class MaterialLaf : DarculaLaf() {
 
         }
 
-        defaults["ListUI"] = MaterialList::class.java.name
-        defaults[MaterialList::class.java.name] = MaterialList::class.java
+        defaults["ListUI"] = AList::class.java.name
+        defaults[AList::class.java.name] = AList::class.java
 
-        defaults["ComboBoxUI"] = MaterialComboBoxUI::class.java.name
-        defaults[MaterialComboBoxUI::class.java.name] = MaterialComboBoxUI::class.java
+        defaults["ComboBoxUI"] = AComboBoxUI::class.java.name
+        defaults[AComboBoxUI::class.java.name] = AComboBoxUI::class.java
 
-        val fieldBorder = MaterialFieldBorder()
+        val fieldBorder = AFieldBorder()
 
         defaults["FormattedTextField.border"] = fieldBorder
         defaults["PasswordField.border"] = fieldBorder
@@ -60,10 +60,10 @@ class MaterialLaf : DarculaLaf() {
         defaults["EditorTextField.border"] = fieldBorder
 
 
-        defaults["FormattedTextFieldUI"] = MaterialFieldUI::class.java.name
-        defaults["PasswordFieldUI"] = MaterialFieldUI::class.java.name
-        defaults["TextFieldUI"] = MaterialFieldUI::class.java.name
-        defaults[MaterialFieldUI::class.java.name] = MaterialFieldUI::class.java
+        defaults["FormattedTextFieldUI"] = AFieldUI::class.java.name
+        defaults["PasswordFieldUI"] = AFieldUI::class.java.name
+        defaults["TextFieldUI"] = AFieldUI::class.java.name
+        defaults[AFieldUI::class.java.name] = AFieldUI::class.java
 
         return defaults
     }
