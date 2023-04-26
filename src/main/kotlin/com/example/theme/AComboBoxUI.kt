@@ -60,7 +60,7 @@ class AComboBoxUI : DarculaComboBoxUI() {
                 BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.0f, floatArrayOf(1.0f, 2.0f), 0.0f)
         }
         if (comboBox.hasFocus()) {
-            g2.color = JBColor.BLUE
+            g2.color = JBUI.CurrentTheme.Component.FOCUSED_BORDER_COLOR
         }
         g2.draw(
             Line2D.Double(

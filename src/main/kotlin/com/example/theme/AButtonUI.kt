@@ -23,21 +23,22 @@ import javax.swing.UIManager
 
 class AButtonUI : DarculaButtonUI() {
 
-    override fun installDefaults(b: AbstractButton) {
-        super.installDefaults(b)
-        b.isRolloverEnabled = true
-    }
-
     override fun getDarculaButtonSize(component: JComponent, prefSize: Dimension): Dimension {
         val insets = component.insets
         val size = ObjectUtils.notNull(prefSize, JBUI.emptySize())
         return if (UIUtil.isHelpButton(component) || isSquare(component)) {
             val helpDiam = HELP_BUTTON_DIAMETER.get()
-            Dimension(size.width.coerceAtLeast(helpDiam + insets.left + insets.right),
-                    size.height.coerceAtLeast(helpDiam + insets.top + insets.bottom))
+            Dimension(
+                size.width.coerceAtLeast(helpDiam + insets.left + insets.right),
+                size.height.coerceAtLeast(helpDiam + insets.top + insets.bottom)
+            )
         } else {
-            val width = if (isComboAction(component)) size.width else (HORIZONTAL_PADDING.get() * 2 + size.width).coerceAtLeast(MINIMUM_BUTTON_WIDTH.get() + insets.left + insets.right)
-            val height = size.height.coerceAtLeast((if (isSmallVariant(component)) ActionToolbar.DEFAULT_MINIMUM_BUTTON_SIZE.height else minimumHeight) + insets.top + insets.bottom)
+            val width =
+                if (isComboAction(component)) size.width else (HORIZONTAL_PADDING.get() * 2 + size.width).coerceAtLeast(
+                    MINIMUM_BUTTON_WIDTH.get() + insets.left + insets.right
+                )
+            val height =
+                size.height.coerceAtLeast((if (isSmallVariant(component)) ActionToolbar.DEFAULT_MINIMUM_BUTTON_SIZE.height else minimumHeight) + insets.top + insets.bottom)
             Dimension(width, height)
         }
     }
@@ -69,23 +70,30 @@ class AButtonUI : DarculaButtonUI() {
         val g2 = g.create() as Graphics2D
         try {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-            g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-                    if (MacUIUtil.USE_QUARTZ) RenderingHints.VALUE_STROKE_PURE else RenderingHints.VALUE_STROKE_NORMALIZE)
+            g2.setRenderingHint(
+                RenderingHints.KEY_STROKE_CONTROL,
+                if (MacUIUtil.USE_QUARTZ) RenderingHints.VALUE_STROKE_PURE else RenderingHints.VALUE_STROKE_NORMALIZE
+            )
             g2.translate(r.x, r.y)
             val bw: Float = if (isSmallVariant(c) || isGotItButton(c)) 0f else DarculaUIUtil.BW.float
             val arc = if (isTag(c)) r.height - bw * 2 else DarculaUIUtil.BUTTON_ARC.float
             if (!c.hasFocus() && !isSmallVariant(c) && c.isEnabled() && UIManager.getBoolean("Button.paintShadow")) {
-                val shadowColor: Color = JBColor.namedColor("Button.shadowColor", JBColor.namedColor("Button.darcula.shadowColor",
-                        JBColor(Color(-0x595959cd, true), Color(0x36363680, true))))
-                val shadowWidth = JBUIScale.scale(JBUI.getInt("Button.shadowWidth", 2))
-                g2.color = if (isDefaultButton(c)) JBColor.namedColor("Button.default.shadowColor", shadowColor) else shadowColor
+                val shadowColor: Color = JBColor.namedColor(
+                    "Button.shadowColor", JBColor.namedColor(
+                        "Button.darcula.shadowColor",
+                        JBColor(Color(-0x595959cd, true), Color(0x36363680, true))
+                    )
+                )
+                val shadowWidth = JBUIScale.scale(0)
+                g2.color = if (isDefaultButton(c)) JBColor.namedColor(
+                    "Button.default.shadowColor",
+                    shadowColor
+                ) else shadowColor
                 g2.fill(RoundRectangle2D.Float(bw, bw + shadowWidth, r.width - bw * 2, r.height - bw * 2, arc, arc))
             }
-            if (button.isEnabled) {
-                if (button.isSelected) {
-                    g2.color = JBColor.BLUE
-                }
-                g2.fill(RoundRectangle2D.Float(bw, bw, r.width - bw * 2, r.height - bw * 2, arc, arc))
+            if (c.isEnabled) {
+                g2.paint = if (c.hasFocus()) JBUI.CurrentTheme.Button.focusBorderColor(true) else getBackground(c, r)
+                g2.fill(RoundRectangle2D.Float(0f, 0f, r.width.toFloat(), r.height.toFloat(), arc, arc))
             }
         } finally {
             g2.dispose()
@@ -93,6 +101,45 @@ class AButtonUI : DarculaButtonUI() {
         return true
     }
 
+    private fun getBackground(c: JComponent, r: Rectangle): Paint {
+        val backgroundColor = c.getClientProperty("JButton.backgroundColor") as Color?
+        return backgroundColor
+            ?: if (isDefaultButton(c)) UIUtil.getGradientPaint(
+                0f, 0f,
+                defaultButtonColorStart, 0f, r.height.toFloat(),
+                defaultButtonColorEnd
+            ) else if (isSmallVariant(c)) JBColor.namedColor(
+                "ComboBoxButton.background",
+                JBColor.namedColor("Button.darcula.smallComboButtonBackground", UIUtil.getPanelBackground())
+            ) else if (isGotItButton(c)) UIUtil.getGradientPaint(
+                0f,
+                0f,
+                getGotItButtonColorStart(c),
+                0f,
+                r.height.toFloat(),
+                getGotItButtonColorEnd(c)
+            ) else UIUtil.getGradientPaint(
+                0f, 0f,
+                buttonColorStart, 0f, r.height.toFloat(),
+                buttonColorEnd
+            )
+    }
+
+    private fun getGotItButtonColorStart(c: Component): Color {
+        return if (isContrastGotIt(c)) {
+            JBUI.CurrentTheme.GotItTooltip.buttonBackgroundContrast()
+        } else JBColor.namedColor("GotItTooltip.Button.startBackground", JBUI.CurrentTheme.Button.buttonColorStart())
+    }
+
+    private fun getGotItButtonColorEnd(c: Component): Color {
+        return if (isContrastGotIt(c)) {
+            JBUI.CurrentTheme.GotItTooltip.buttonBackgroundContrast()
+        } else JBColor.namedColor("GotItTooltip.Button.endBackground", JBUI.CurrentTheme.Button.buttonColorEnd())
+    }
+
+    // override fun createButtonListener(b: AbstractButton): BasicButtonListener {
+    //     return AButtonListener(b)
+    // }
 
     companion object {
         @JvmStatic

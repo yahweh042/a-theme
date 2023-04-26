@@ -46,7 +46,7 @@ class MaterialLaf : DarculaLaf() {
 
         }
 
-        defaults["ListUI"] = AList::class.java.name
+        // defaults["ListUI"] = AList::class.java.name
         defaults[AList::class.java.name] = AList::class.java
 
         defaults["ComboBoxUI"] = AComboBoxUI::class.java.name

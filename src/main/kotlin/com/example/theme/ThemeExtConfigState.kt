@@ -40,6 +40,9 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
 
         defaults["CheckBox.border"] = ACheckBoxBorder()
 
+        defaults["ListUI"] = AList::class.java.name
+        defaults[AList::class.java.name] = AList::class.java
+
         applyButtonStyle(defaults)
         applyComboBoxStyle(defaults)
 
