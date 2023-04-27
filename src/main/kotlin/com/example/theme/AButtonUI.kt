@@ -19,6 +19,7 @@ import java.awt.geom.RoundRectangle2D
 import javax.swing.AbstractButton
 import javax.swing.JComponent
 import javax.swing.UIManager
+import javax.swing.plaf.basic.BasicButtonListener
 
 
 class AButtonUI : DarculaButtonUI() {
@@ -137,15 +138,13 @@ class AButtonUI : DarculaButtonUI() {
         } else JBColor.namedColor("GotItTooltip.Button.endBackground", JBUI.CurrentTheme.Button.buttonColorEnd())
     }
 
-    // override fun createButtonListener(b: AbstractButton): BasicButtonListener {
-    //     return AButtonListener(b)
-    // }
+    override fun createButtonListener(b: AbstractButton): BasicButtonListener {
+        return AButtonListener(b)
+    }
 
     companion object {
         @JvmStatic
-        fun createUI(component: JComponent): AButtonUI {
-            return AButtonUI()
-        }
+        fun createUI(component: JComponent): AButtonUI = AButtonUI()
     }
 
 }

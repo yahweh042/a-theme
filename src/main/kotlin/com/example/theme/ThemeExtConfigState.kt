@@ -46,6 +46,13 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         applyButtonStyle(defaults)
         applyComboBoxStyle(defaults)
 
+        val fieldBorder = AFieldBorder()
+
+        defaults["FormattedTextField.border"] = fieldBorder
+        defaults["PasswordField.border"] = fieldBorder
+        defaults["TextField.border"] = fieldBorder
+        defaults["EditorTextField.border"] = fieldBorder
+
         LafManager.getInstance().updateUI()
     }
 
