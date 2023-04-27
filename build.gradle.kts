@@ -13,6 +13,8 @@ repositories {
 
 dependencies {
     implementation("org.javassist:javassist:3.27.0-GA")
+    implementation("io.github.vincenzopalazzo:material-ui-swing:1.1.2")
+
 }
 
 // Configure Gradle IntelliJ Plugin

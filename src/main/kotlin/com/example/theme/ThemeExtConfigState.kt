@@ -90,7 +90,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     companion object {
 
         @JvmStatic
-        fun getInstance(): ThemeExtConfigState = ApplicationManager.getApplication().getService(ThemeExtConfigState::class.java)
+        fun getInstance(): ThemeExtConfigState =
+            ApplicationManager.getApplication().getService(ThemeExtConfigState::class.java)
 
     }
 

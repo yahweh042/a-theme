@@ -18,7 +18,6 @@ import java.awt.geom.Ellipse2D
 import java.awt.geom.RoundRectangle2D
 import javax.swing.AbstractButton
 import javax.swing.JComponent
-import javax.swing.UIManager
 import javax.swing.plaf.basic.BasicButtonListener
 
 
@@ -78,27 +77,29 @@ class AButtonUI : DarculaButtonUI() {
             g2.translate(r.x, r.y)
             val bw: Float = if (isSmallVariant(c) || isGotItButton(c)) 0f else DarculaUIUtil.BW.float
             val arc = if (isTag(c)) r.height - bw * 2 else DarculaUIUtil.BUTTON_ARC.float
-            if (!c.hasFocus() && !isSmallVariant(c) && c.isEnabled() && UIManager.getBoolean("Button.paintShadow")) {
-                val shadowColor: Color = JBColor.namedColor(
-                    "Button.shadowColor", JBColor.namedColor(
-                        "Button.darcula.shadowColor",
-                        JBColor(Color(-0x595959cd, true), Color(0x36363680, true))
-                    )
-                )
-                val shadowWidth = JBUIScale.scale(0)
-                g2.color = if (isDefaultButton(c)) JBColor.namedColor(
-                    "Button.default.shadowColor",
-                    shadowColor
-                ) else shadowColor
-                g2.fill(RoundRectangle2D.Float(bw, bw + shadowWidth, r.width - bw * 2, r.height - bw * 2, arc, arc))
-            }
+            // if (!c.hasFocus() && !isSmallVariant(c) && c.isEnabled() && UIManager.getBoolean("Button.paintShadow")) {
+            //     val shadowColor: Color = JBColor.namedColor(
+            //         "Button.shadowColor", JBColor.namedColor(
+            //             "Button.darcula.shadowColor",
+            //             JBColor(Color(-0x595959cd, true), Color(0x36363680, true))
+            //         )
+            //     )
+            //     val shadowWidth = JBUIScale.scale(0)
+            //     g2.color = if (isDefaultButton(c)) JBColor.namedColor(
+            //         "Button.default.shadowColor",
+            //         shadowColor
+            //     ) else shadowColor
+            //     g2.fill(RoundRectangle2D.Float(bw, bw + shadowWidth, r.width - bw * 2, r.height - bw * 2, arc, arc))
+            // }
             if (c.isEnabled) {
                 g2.paint = if (c.hasFocus()) JBUI.CurrentTheme.Button.focusBorderColor(true) else getBackground(c, r)
                 g2.fill(RoundRectangle2D.Float(0f, 0f, r.width.toFloat(), r.height.toFloat(), arc, arc))
+                c.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
             }
         } finally {
             g2.dispose()
         }
+
         return true
     }
 
