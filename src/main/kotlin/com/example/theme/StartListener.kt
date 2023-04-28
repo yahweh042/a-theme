@@ -6,6 +6,7 @@ import com.intellij.openapi.application.ApplicationManager
 import java.lang.invoke.MethodHandles
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
+import javax.swing.UIManager
 
 class StartListener : AppLifecycleListener {
 
@@ -26,6 +27,12 @@ class StartListener : AppLifecycleListener {
 
         ApplicationManager.getApplication().invokeAndWait {
             ThemeExtConfigState.getInstance().applyChange()
+        }
+
+        UIManager.addPropertyChangeListener {
+            if (it.propertyName == "lookAndFeel") {
+                ThemeExtConfigState.getInstance().applyChange()
+            }
         }
 
     }

@@ -3,10 +3,8 @@ package com.example.theme
 import com.intellij.ui.Gray
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBUI
-import java.awt.BasicStroke
-import java.awt.Color
-import java.awt.Graphics2D
-import java.awt.Stroke
+import java.awt.*
+import javax.swing.JComponent
 
 object AThemeUtils {
 
@@ -39,6 +37,10 @@ object AThemeUtils {
     fun setBorderStyle(g: Graphics2D, enabled: Boolean, focused: Boolean) {
         g.color = getBorderColor(enabled, focused)
         g.stroke = getBorderStroke(enabled)
+    }
+
+    fun setHandCursor(c : JComponent) {
+        c.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
     }
 
 }

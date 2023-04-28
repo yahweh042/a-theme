@@ -11,7 +11,4 @@ fun replaceStripeButton() {
     cm.setBody("{\nmyCustomButtonLook = ActionButtonLook.SYSTEM_LOOK;\nrepaint();\n}")
     ct.toClass()
 
-
-
-
 }

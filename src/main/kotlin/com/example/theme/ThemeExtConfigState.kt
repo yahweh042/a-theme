@@ -21,14 +21,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     override fun getState(): ThemeExtConfig = themeExtConfig
 
     override fun loadState(state: ThemeExtConfig) {
-        XmlSerializerUtil.copyBean(state, this)
+        XmlSerializerUtil.copyBean(state, themeExtConfig)
     }
-
-    fun setListRowHeight(listRowHeight: Int) {
-        themeExtConfig.listRowHeight = listRowHeight
-    }
-
-    fun getListRowHeight() = themeExtConfig.listRowHeight
 
     fun applyChange() {
         val defaults = UIManager.getDefaults()
@@ -52,6 +46,11 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["PasswordField.border"] = fieldBorder
         defaults["TextField.border"] = fieldBorder
         defaults["EditorTextField.border"] = fieldBorder
+
+        defaults["FormattedTextFieldUI"] = AFieldUI::class.java.name
+        defaults["PasswordFieldUI"] = AFieldUI::class.java.name
+        defaults["TextFieldUI"] = AFieldUI::class.java.name
+        defaults[AFieldUI::class.java.name] = AFieldUI::class.java
 
         LafManager.getInstance().updateUI()
     }
@@ -98,8 +97,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     data class ThemeExtConfig(
         var listRowHeight: Int = 24,
         var treeRowHeight: Int = 24,
-        var buttonStyle: String = "Material",
+        var buttonStyle: String? = "Material",
         var fieldStyle: String = "Material",
-        var comboBoxStyle: String = "Material",
+        var comboBoxStyle: String? = "Material",
     )
 }
