@@ -7,6 +7,6 @@ import java.awt.Insets
 
 class ACheckBoxBorder : DarculaCheckBoxBorder() {
 
-    override fun getBorderInsets(c: Component): Insets = JBInsets.emptyInsets().asUIResource()
+    override fun getBorderInsets(c: Component): Insets = JBInsets(0, 0, 0, 0).asUIResource()
 
 }

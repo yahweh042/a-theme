@@ -58,6 +58,7 @@ class ACheckBoxUI : DarculaCheckBoxUI() {
     }
 
     companion object {
+        @Suppress("UNUSED_PARAMETER")
         @JvmStatic
         fun createUI(c: JComponent): ACheckBoxUI {
             return ACheckBoxUI()

@@ -125,6 +125,7 @@ class AButtonUI : DarculaButtonUI() {
     }
 
     companion object {
+        @Suppress("UNUSED_PARAMETER")
         @JvmStatic
         fun createUI(component: JComponent): AButtonUI = AButtonUI()
     }

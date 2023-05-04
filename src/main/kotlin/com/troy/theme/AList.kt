@@ -57,6 +57,7 @@ class AList : BasicListUI() {
 
     companion object {
 
+        @Suppress("UNUSED_PARAMETER")
         @JvmStatic
         fun createUI(component: JComponent) = AList()
 

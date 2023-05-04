@@ -73,15 +73,15 @@ class AComboBoxUI : DarculaComboBoxUI() {
     }
 
     override fun paintArrow(g2: Graphics2D, btn: JButton) {
-        if (ExperimentalUI.isNewUI()) {
-            val icon =
-                if (comboBox.isEnabled) AllIcons.General.ChevronDown else getDisabledIcon(AllIcons.General.ChevronDown)
-            val r = getArrowButtonRect(btn)
-            icon.paintIcon(btn, g2, r.x + (r.width - icon.iconWidth) / 2, r.y + (r.height - icon.iconHeight) / 2)
-        } else {
+        // if (ExperimentalUI.isNewUI()) {
+        //     val icon =
+        //         if (comboBox.isEnabled) AllIcons.General.ChevronDown else getDisabledIcon(AllIcons.General.ChevronDown)
+        //     val r = getArrowButtonRect(btn)
+        //     icon.paintIcon(btn, g2, r.x + (r.width - icon.iconWidth) / 2, r.y + (r.height - icon.iconHeight) / 2)
+        // } else {
             g2.color = JBUI.CurrentTheme.Arrow.foregroundColor(comboBox.isEnabled)
             g2.fill(getArrowShape(btn))
-        }
+        // }
     }
 
     private fun getArrowButtonRect(button: JButton): Rectangle {
@@ -128,6 +128,7 @@ class AComboBoxUI : DarculaComboBoxUI() {
 
     companion object {
 
+        @Suppress("UNUSED_PARAMETER")
         @JvmStatic
         fun createUI(component: JComponent): AComboBoxUI {
             return AComboBoxUI()
