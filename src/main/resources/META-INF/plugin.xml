@@ -1,11 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.example.material-theme</id>
+    <id>com.troy.a-theme</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>A-Theme</name>
+    <name>A Theme</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="yahweh042@163.com" url="https://github.com/yahweh042">Yahweh</vendor>
@@ -29,12 +29,12 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <!--<themeProvider id="aa3b5a9f-2175-414b-be83-6a651d1e7e00" path="/Material.theme.json"/>-->
-        <applicationService serviceImplementation="com.example.theme.ThemeExtConfigState" id="ThemeConfig"/>
-        <applicationConfigurable instance="com.example.theme.ThemeExtSetting" />
+        <applicationService serviceImplementation="com.troy.theme.ThemeExtConfigState" id="ThemeConfig"/>
+        <applicationConfigurable instance="com.troy.theme.ThemeExtSetting" />
     </extensions>
 
     <applicationListeners>
-        <listener class="com.example.theme.StartListener" topic="com.intellij.ide.AppLifecycleListener"/>
+        <listener class="com.troy.theme.StartListener" topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
 
 </idea-plugin>

@@ -1,4 +1,4 @@
-package com.example.theme
+package com.troy.theme
 
 import com.intellij.internal.ui.gridLayoutTestAction.createTabPanel
 import com.intellij.openapi.options.SearchableConfigurable

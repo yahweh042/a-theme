@@ -1,4 +1,4 @@
-package com.example.theme
+package com.troy.theme
 
 import com.intellij.ui.Gray
 import com.intellij.ui.JBColor

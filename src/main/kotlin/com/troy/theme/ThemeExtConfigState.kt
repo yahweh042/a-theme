@@ -1,4 +1,4 @@
-package com.example.theme
+package com.troy.theme
 
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonPainter
@@ -34,8 +34,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
 
         defaults["CheckBox.border"] = ACheckBoxBorder()
 
-        defaults["ListUI"] = AList::class.java.name
-        defaults[AList::class.java.name] = AList::class.java
+        // defaults["ListUI"] = AList::class.java.name
+        // defaults[AList::class.java.name] = AList::class.java
 
         applyButtonStyle(defaults)
         applyComboBoxStyle(defaults)
@@ -72,7 +72,6 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     }
 
     private fun applyComboBoxStyle(defaults: UIDefaults) {
-        println(state.comboBoxStyle)
         when (state.comboBoxStyle) {
             "Material" -> {
                 defaults["ComboBoxUI"] = AComboBoxUI::class.java.name

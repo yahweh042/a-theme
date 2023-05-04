@@ -1,4 +1,4 @@
-package com.example.theme
+package com.troy.theme
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil

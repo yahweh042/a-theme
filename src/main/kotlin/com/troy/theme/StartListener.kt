@@ -1,4 +1,4 @@
-package com.example.theme
+package com.troy.theme
 
 import com.intellij.ide.AppLifecycleListener
 import com.intellij.openapi.actionSystem.ex.ActionButtonLook
@@ -23,7 +23,7 @@ class StartListener : AppLifecycleListener {
         field.isAccessible = false
 
 
-        replaceStripeButton()
+        // replaceStripeButton()
 
         ApplicationManager.getApplication().invokeAndWait {
             ThemeExtConfigState.getInstance().applyChange()
