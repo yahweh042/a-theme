@@ -52,6 +52,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["TextFieldUI"] = AFieldUI::class.java.name
         defaults[AFieldUI::class.java.name] = AFieldUI::class.java
 
+        defaults["IdeStatusBarUI"] = AStatusBarUI()
+
         LafManager.getInstance().updateUI()
     }
 

@@ -48,9 +48,7 @@ class AButtonUI : DarculaButtonUI() {
 
     override fun paintDecorations(g: Graphics2D, c: JComponent): Boolean {
         val button = c as AbstractButton
-        // if (!button.isContentAreaFilled) {
-        //     return true
-        // }
+
         AThemeUtils.setHandCursor(c)
         val r = Rectangle(button.size)
         if (isCustomBar(c)) {

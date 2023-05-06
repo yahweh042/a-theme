@@ -1,15 +1,9 @@
 package com.troy.theme
 
-import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
-import com.intellij.ide.ui.laf.darcula.DarculaUIUtil.Outline
 import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonPainter
-import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonUI
-import com.intellij.util.ui.*
-import java.awt.*
-import java.awt.geom.Ellipse2D
-import java.awt.geom.Path2D
-import java.awt.geom.RoundRectangle2D
-import javax.swing.JComponent
+import com.intellij.util.ui.JBValue
+import java.awt.Component
+import java.awt.Graphics
 
 class AButtonBorder : DarculaButtonPainter() {
 

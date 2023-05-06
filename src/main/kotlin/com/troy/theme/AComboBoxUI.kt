@@ -3,23 +3,25 @@ package com.troy.theme
 import com.intellij.icons.AllIcons
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaComboBoxUI
-import com.intellij.openapi.util.IconLoader.getDisabledIcon
-import com.intellij.ui.ExperimentalUI
-import com.intellij.ui.scale.JBUIScale.scale
+import com.intellij.openapi.util.IconLoader
+import com.intellij.openapi.util.text.StringUtil
+import com.intellij.ui.JBColor
+import com.intellij.ui.OffsetIcon
+import com.intellij.ui.SimpleColoredComponent
+import com.intellij.util.ObjectUtils
 import com.intellij.util.ui.JBInsets
 import com.intellij.util.ui.JBUI
+import com.intellij.util.ui.StartupUiUtil
 import java.awt.*
 import java.awt.geom.Line2D
-import java.awt.geom.Path2D
-import javax.swing.JButton
-import javax.swing.JComponent
+import javax.swing.*
+import javax.swing.border.Border
 import javax.swing.plaf.basic.BasicArrowButton
 
 
 class AComboBoxUI : DarculaComboBoxUI() {
 
     private val myBorderCompensation: Insets = JBUI.insets(DEFAULT_BORDER_COMPENSATION)
-    private val myArc = 5f
 
     override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
         if (c !is JComponent) return
@@ -73,15 +75,10 @@ class AComboBoxUI : DarculaComboBoxUI() {
     }
 
     override fun paintArrow(g2: Graphics2D, btn: JButton) {
-        // if (ExperimentalUI.isNewUI()) {
-        //     val icon =
-        //         if (comboBox.isEnabled) AllIcons.General.ChevronDown else getDisabledIcon(AllIcons.General.ChevronDown)
-        //     val r = getArrowButtonRect(btn)
-        //     icon.paintIcon(btn, g2, r.x + (r.width - icon.iconWidth) / 2, r.y + (r.height - icon.iconHeight) / 2)
-        // } else {
-            g2.color = JBUI.CurrentTheme.Arrow.foregroundColor(comboBox.isEnabled)
-            g2.fill(getArrowShape(btn))
-        // }
+        val chevronDown = AllIcons.General.ChevronDown
+        val icon = if (comboBox.isEnabled) chevronDown else IconLoader.getDisabledIcon(chevronDown)
+        val r = getArrowButtonRect(btn)
+        icon.paintIcon(btn, g2, r.x + (r.width - icon.iconWidth) / 2, r.y + (r.height - icon.iconHeight) / 2)
     }
 
     private fun getArrowButtonRect(button: JButton): Rectangle {
@@ -92,28 +89,11 @@ class AComboBoxUI : DarculaComboBoxUI() {
         return result
     }
 
-    private fun getArrowShape(button: Component): Shape {
-        val r = Rectangle(button.size)
-        JBInsets.removeFrom(r, JBUI.insets(1, 0, 1, 1))
-        val tW = scale(9)
-        val tH = scale(5)
-        val xU = (r.width - tW) / 2 - scale(1)
-        val yU = (r.height - tH) / 2 + scale(1)
-        val path: Path2D = Path2D.Float()
-        path.moveTo(xU.toDouble(), yU.toDouble())
-        path.lineTo((xU + tW).toDouble(), yU.toDouble())
-        path.lineTo((xU + tW / 2.0f).toDouble(), (yU + tH).toDouble())
-        path.lineTo(xU.toDouble(), yU.toDouble())
-        path.closePath()
-        return path
-    }
-
-
     override fun paint(g: Graphics, c: JComponent) {
         checkFocus()
         AThemeUtils.setHandCursor(c)
         val parent = c.parent
-        if (parent != null && c.isOpaque) {
+        if (parent != null) {
             g.color = if (DarculaUIUtil.isTableCellEditor(c) && editor != null) editor.background else parent.background
             g.fillRect(0, 0, c.width, c.height)
         }
@@ -125,6 +105,112 @@ class AComboBoxUI : DarculaComboBoxUI() {
         }
         currentValuePane.removeAll()
     }
+
+    override fun paintCurrentValueBackground(g: Graphics?, bounds: Rectangle?, hasFocus: Boolean) {
+        // super.paintCurrentValueBackground(g, bounds, hasFocus)
+    }
+
+    override fun paintCurrentValue(g: Graphics, bounds: Rectangle, hasFocus: Boolean) {
+        val renderer = comboBox.renderer
+        val value = comboBox.selectedItem
+        val c = renderer.getListCellRendererComponent(listBox, value, -1, false, false)
+
+        c.font = comboBox.font
+        // c.background = getBackgroundColor()
+
+        if (java.lang.Boolean.TRUE != comboBox.getClientProperty(DISABLE_SETTING_FOREGROUND)) {
+            if (hasFocus && !isPopupVisible(comboBox)) {
+                c.foreground = listBox.foreground
+            } else {
+                c.foreground =
+                    if (comboBox.isEnabled) comboBox.foreground else JBColor.namedColor(
+                        "ComboBox.disabledForeground",
+                        comboBox.foreground
+                    )
+            }
+        }
+
+        // paint selection in table-cell-editor mode correctly
+
+        // paint selection in table-cell-editor mode correctly
+        val changeOpaque = c is JComponent && DarculaUIUtil.isTableCellEditor(comboBox) && c.isOpaque()
+        if (changeOpaque) {
+            (c as JComponent).isOpaque = false
+        }
+
+        var shouldValidate = false
+        if (c is JPanel) {
+            shouldValidate = true
+        }
+
+        val r = Rectangle(bounds)
+
+        var icon: Icon? = null
+        var iPad: Insets? = null
+        var border: Border? = null
+        var enabled = true
+        if (c is SimpleColoredComponent) {
+            iPad = c.ipad
+            border = c.border
+            enabled = c.isEnabled
+            c.border = JBUI.Borders.empty()
+            c.ipad = JBInsets(0, 0, 0, 0)
+            c.isEnabled = comboBox.isEnabled
+            icon = c.icon
+            if (!c.isIconOnTheRight) {
+                c.icon = OffsetIcon.getOriginalIcon(icon)
+            }
+        } else if (c is JLabel) {
+            border = c.border
+            c.border = JBUI.Borders.empty()
+            icon = c.icon
+            c.icon = OffsetIcon.getOriginalIcon(icon)
+
+            // the following trimMiddle approach is not good for smooth resizing:
+            // the text jumps as more or less space becomes available.
+            // a proper text layout algorithm on painting in DarculaLabelUI can fix that.
+            val text = c.text
+            val maxWidth = bounds.width - if (padding == null || StartupUiUtil.isUnderDarcula()) 0 else padding.right
+            if (StringUtil.isNotEmpty(text) && c.preferredSize.width > maxWidth) {
+                val max0 = ObjectUtils.binarySearch(7, text.length - 1) { idx: Int ->
+                    c.text = StringUtil.trimMiddle(text, idx)
+                    c.preferredSize.width.compareTo(maxWidth)
+                }
+                val max = if (max0 < 0) -max0 - 2 else max0
+                if (max > 7 && max < text.length) {
+                    c.text = StringUtil.trimMiddle(text, max)
+                }
+            }
+        } else if (c is JComponent) {
+            border = c.border
+            c.border = JBUI.Borders.empty()
+        }
+
+        currentValuePane.paintComponent(g, c, comboBox, r.x, r.y, r.width, r.height, shouldValidate)
+
+        if (changeOpaque) {
+            (c as JComponent).isOpaque = true
+        }
+
+        when (c) {
+            is SimpleColoredComponent -> {
+                c.ipad = iPad!!
+                c.icon = icon
+                c.border = border
+                c.isEnabled = enabled
+            }
+
+            is JLabel -> {
+                c.border = border
+                c.icon = icon
+            }
+
+            is JComponent -> {
+                c.border = border
+            }
+        }
+    }
+
 
     companion object {
 
