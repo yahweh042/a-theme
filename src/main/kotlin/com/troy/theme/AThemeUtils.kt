@@ -21,14 +21,14 @@ object AThemeUtils {
 
     private fun getBorderStroke(enabled: Boolean): Stroke {
         return if (enabled) {
-            BasicStroke(1.0f)
+            BasicStroke(1.5f)
         } else {
             BasicStroke(
-                1.0f,
+                1.5f,
                 BasicStroke.CAP_ROUND,
                 BasicStroke.JOIN_ROUND,
                 0.0f,
-                floatArrayOf(1.0f, 2.0f),
+                floatArrayOf(2.0f, 4.0f),
                 0.0f
             )
         }
@@ -39,7 +39,7 @@ object AThemeUtils {
         g.stroke = getBorderStroke(enabled)
     }
 
-    fun setHandCursor(c : JComponent) {
+    fun setHandCursor(c: JComponent) {
         c.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
     }
 

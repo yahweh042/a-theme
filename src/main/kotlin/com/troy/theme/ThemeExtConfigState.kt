@@ -52,7 +52,15 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["TextFieldUI"] = AFieldUI::class.java.name
         defaults[AFieldUI::class.java.name] = AFieldUI::class.java
 
-        defaults["IdeStatusBarUI"] = AStatusBarUI()
+        defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
+        defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
+
+        defaults["PopupMenuUI"] = APopupMenuUI::class.java.name
+        defaults[APopupMenuUI::class.java.name] = APopupMenuUI::class.java
+
+        val menuBorder= AMenuItemBorder()
+        defaults["MenuItem.border"] = menuBorder
+        defaults["Menu.border"] = menuBorder
 
         LafManager.getInstance().updateUI()
     }
@@ -98,6 +106,7 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     data class ThemeExtConfig(
         var listRowHeight: Int = 24,
         var treeRowHeight: Int = 24,
+        var statusBarHeight: Int = 24,
         var buttonStyle: String? = "Material",
         var fieldStyle: String = "Material",
         var comboBoxStyle: String? = "Material",

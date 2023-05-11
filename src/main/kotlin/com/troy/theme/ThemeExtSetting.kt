@@ -1,8 +1,6 @@
 package com.troy.theme
 
-import com.intellij.internal.ui.gridLayoutTestAction.createTabPanel
 import com.intellij.openapi.options.SearchableConfigurable
-import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.bindIntText
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
@@ -13,12 +11,17 @@ class ThemeExtSetting : SearchableConfigurable {
     private val items = arrayListOf("Material", "Default")
     private var state = ThemeExtConfigState.getInstance().state
 
-    private val listPanel = panel {
-        row("ListRowHeight:") {
-            intTextField().bindIntText(state::listRowHeight)
+    private val panel = panel {
+        group("List") {
+            row("ListRowHeight:") {
+                intTextField().bindIntText(state::listRowHeight)
+            }
         }
         row("TreeRowHeight:") {
             intTextField().bindIntText(state::treeRowHeight)
+        }
+        row("StatusBarHeight:") {
+            intTextField().bindIntText(state::statusBarHeight)
         }
         row("ButtonStyle:") {
             comboBox(items).bindItem(state::buttonStyle)
@@ -29,20 +32,20 @@ class ThemeExtSetting : SearchableConfigurable {
     }
 
     override fun createComponent(): JComponent {
-        return listPanel
+        return panel
     }
 
     override fun isModified(): Boolean {
-        return listPanel.isModified()
+        return panel.isModified()
     }
 
     override fun apply() {
-        listPanel.apply()
+        panel.apply()
         ThemeExtConfigState.getInstance().applyChange()
     }
 
     override fun reset() {
-        listPanel.reset()
+        panel.reset()
     }
 
     override fun getDisplayName(): String = "ThemeExtSetting"

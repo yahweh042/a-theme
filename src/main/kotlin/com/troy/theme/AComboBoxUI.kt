@@ -47,7 +47,7 @@ class AComboBoxUI : DarculaComboBoxUI() {
 
     }
 
-    override fun createArrowButton(): JButton? {
+    override fun createArrowButton(): JButton {
         val bg = comboBox.background
         val fg = comboBox.foreground
         val button: JButton = object : BasicArrowButton(SOUTH, bg, fg, fg, fg) {
@@ -75,7 +75,7 @@ class AComboBoxUI : DarculaComboBoxUI() {
     }
 
     override fun paintArrow(g2: Graphics2D, btn: JButton) {
-        val chevronDown = AllIcons.General.ChevronDown
+        val chevronDown = if (comboBox.isPopupVisible) AllIcons.General.ChevronUp else AllIcons.General.ChevronDown
         val icon = if (comboBox.isEnabled) chevronDown else IconLoader.getDisabledIcon(chevronDown)
         val r = getArrowButtonRect(btn)
         icon.paintIcon(btn, g2, r.x + (r.width - icon.iconWidth) / 2, r.y + (r.height - icon.iconHeight) / 2)
@@ -208,6 +208,24 @@ class AComboBoxUI : DarculaComboBoxUI() {
             is JComponent -> {
                 c.border = border
             }
+        }
+    }
+
+    override fun update(g: Graphics, c: JComponent) {
+        super.update(g, c)
+        arrowButton = createArrowButton()
+
+        if (arrowButton != null) {
+            comboBox.add(arrowButton)
+            configureArrowButton()
+        }
+    }
+
+    override fun installComponents() {
+        super.installComponents()
+
+        comboBox.addPropertyChangeListener {
+            print(it.propertyName)
         }
     }
 

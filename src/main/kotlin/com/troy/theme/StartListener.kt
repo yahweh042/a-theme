@@ -8,7 +8,7 @@ class StartListener : AppLifecycleListener {
 
     override fun appFrameCreated(commandLineArgs: MutableList<String>) {
 
-        // replaceActionButton()
+        replaceActionButton()
 
         // replaceStripeButton()
 
