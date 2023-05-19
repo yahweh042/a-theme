@@ -34,23 +34,13 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
 
         defaults["CheckBox.border"] = ACheckBoxBorder()
 
+        defaults["MenuItem.evenHeight"] = true
+
         // defaults["ListUI"] = AList::class.java.name
         // defaults[AList::class.java.name] = AList::class.java
 
         applyButtonStyle(defaults)
         applyComboBoxStyle(defaults)
-
-        val fieldBorder = AFieldBorder()
-
-        defaults["FormattedTextField.border"] = fieldBorder
-        defaults["PasswordField.border"] = fieldBorder
-        defaults["TextField.border"] = fieldBorder
-        defaults["EditorTextField.border"] = fieldBorder
-
-        defaults["FormattedTextFieldUI"] = AFieldUI::class.java.name
-        defaults["PasswordFieldUI"] = AFieldUI::class.java.name
-        defaults["TextFieldUI"] = AFieldUI::class.java.name
-        defaults[AFieldUI::class.java.name] = AFieldUI::class.java
 
         defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
         defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
@@ -58,9 +48,12 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["PopupMenuUI"] = APopupMenuUI::class.java.name
         defaults[APopupMenuUI::class.java.name] = APopupMenuUI::class.java
 
-        val menuBorder= AMenuItemBorder()
+        val menuBorder = AMenuItemBorder()
         defaults["MenuItem.border"] = menuBorder
         defaults["Menu.border"] = menuBorder
+
+        applyRadioButtonStyle(defaults)
+        applyFieldStyle(defaults)
 
         LafManager.getInstance().updateUI()
     }
@@ -93,6 +86,26 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
                 defaults[DarculaComboBoxUI::class.java.name] = DarculaComboBoxUI::class.java
             }
         }
+    }
+
+    private fun applyRadioButtonStyle(defaults: UIDefaults) {
+        defaults["RadioButtonUI"] = ARadioButtonUI::class.java.name
+        defaults[ARadioButtonUI::class.java.name] = ARadioButtonUI::class.java
+    }
+
+
+    private fun applyFieldStyle(defaults: UIDefaults) {
+        val fieldBorder = AFieldBorder()
+
+        defaults["FormattedTextField.border"] = fieldBorder
+        defaults["PasswordField.border"] = fieldBorder
+        defaults["TextField.border"] = fieldBorder
+        defaults["EditorTextField.border"] = fieldBorder
+
+        defaults["FormattedTextFieldUI"] = AFieldUI::class.java.name
+        defaults["PasswordFieldUI"] = AFieldUI::class.java.name
+        defaults["TextFieldUI"] = AFieldUI::class.java.name
+        defaults[AFieldUI::class.java.name] = AFieldUI::class.java
     }
 
     companion object {

@@ -7,8 +7,7 @@ import java.awt.Graphics
 
 class AButtonBorder : DarculaButtonPainter() {
 
-    override fun paintBorder(component: Component, graphics: Graphics, x: Int, y: Int, width: Int, height: Int) {
-
+    override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
     }
 
     companion object {

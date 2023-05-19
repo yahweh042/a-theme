@@ -37,3 +37,24 @@ fun replaceActionButton() {
     }
 
 }
+
+fun replaceActionMenu() {
+    val cp = ClassPool(true)
+    cp.importPackage("com.troy.theme.AMenuUI")
+    cp.importPackage("com.intellij.util.ui.UIUtil")
+    cp.importPackage("javax.swing.JPopupMenu")
+    val ct = cp.get("com.intellij.openapi.actionSystem.impl.ActionMenu")
+    val cm = ct.getDeclaredMethod("updateUI")
+    cm.setBody(
+        "{\nsetUI(AMenuUI.createUI(this));\n" +
+                "    setFont(UIUtil.getMenuFont());\n" +
+                "\n" +
+                "    JPopupMenu popupMenu = getPopupMenu();\n" +
+                "    if (popupMenu != null) {\n" +
+                "      popupMenu.updateUI();\n" +
+                "    }\n" +
+                "}"
+    )
+    ct.toClass()
+
+}

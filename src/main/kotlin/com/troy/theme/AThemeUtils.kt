@@ -1,5 +1,6 @@
 package com.troy.theme
 
+import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
 import com.intellij.ui.Gray
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBUI
@@ -32,6 +33,11 @@ object AThemeUtils {
                 0.0f
             )
         }
+    }
+
+    fun patchMenuItemPreferredSize(c : Component, preferredSize: Dimension): Dimension {
+        val outerInsets = if (IdeaPopupMenuUI.isPartOfPopupMenu(c)) JBUI.CurrentTheme.PopupMenu.Selection.outerInsets() else JBUI.CurrentTheme.Menu.Selection.outerInsets()
+        return Dimension(preferredSize.width, JBUI.CurrentTheme.List.rowHeight() + outerInsets.height())
     }
 
     fun setBorderStyle(g: Graphics2D, enabled: Boolean, focused: Boolean) {

@@ -221,20 +221,12 @@ class AComboBoxUI : DarculaComboBoxUI() {
         }
     }
 
-    override fun installComponents() {
-        super.installComponents()
-
-        comboBox.addPropertyChangeListener {
-            print(it.propertyName)
-        }
-    }
-
 
     companion object {
 
         @Suppress("UNUSED_PARAMETER")
         @JvmStatic
-        fun createUI(component: JComponent): AComboBoxUI {
+        fun createUI(c: JComponent): AComboBoxUI {
             return AComboBoxUI()
         }
 

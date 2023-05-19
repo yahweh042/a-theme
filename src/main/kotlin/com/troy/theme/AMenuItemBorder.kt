@@ -10,7 +10,7 @@ class AMenuItemBorder : DarculaMenuItemBorder() {
 
     override fun getBorderInsets(c: Component): Insets {
         val borderInsets = super.getBorderInsets(c)
-        return JBInsets.addInsets(borderInsets, JBUI.insets(2, 0))
+        return JBInsets.addInsets(borderInsets, JBUI.insets(1, 0))
     }
 
 }
