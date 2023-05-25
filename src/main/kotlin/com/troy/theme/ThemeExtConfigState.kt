@@ -114,6 +114,10 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["PopupMenu.borderCornerRadius"] = state.popupMenuState.borderCornerRadius
         defaults["PopupMenu.Selection.arc"] = state.popupMenuState.selectionArc
 
+        defaults["Button.ToolWindow.arc"] = 5
+        defaults["Menu.Selection.arc"] = 5
+        defaults["GotItTooltip.arc"] = 5
+        defaults["Tree.Selection.arc"] = 5
     }
 
     companion object {
