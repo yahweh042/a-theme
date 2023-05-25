@@ -29,6 +29,14 @@ class ThemeExtSetting : SearchableConfigurable {
         row("ComboBoxStyle:") {
             comboBox(items).bindItem(state::comboBoxStyle)
         }
+        group("PopupMenu") {
+            row("BorderCornerRadius") {
+                intTextField().bindIntText(state.popupMenuState::borderCornerRadius)
+            }
+            row("SelectionCornerRadius") {
+                intTextField().bindIntText(state.popupMenuState::selectionArc)
+            }
+        }
     }
 
     override fun createComponent(): JComponent {

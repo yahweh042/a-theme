@@ -12,11 +12,14 @@ import com.intellij.util.ObjectUtils
 import com.intellij.util.ui.JBInsets
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.StartupUiUtil
+import org.codehaus.groovy.runtime.ResourceGroovyMethods.setText
 import java.awt.*
 import java.awt.geom.Line2D
 import javax.swing.*
 import javax.swing.border.Border
 import javax.swing.plaf.basic.BasicArrowButton
+import javax.swing.plaf.basic.ComboPopup
+import javax.swing.text.StyleConstants.setIcon
 
 
 class AComboBoxUI : DarculaComboBoxUI() {
@@ -45,6 +48,15 @@ class AComboBoxUI : DarculaComboBoxUI() {
 
     override fun paintBorder(c: Component, g2: Graphics2D, bw: Float, r: Rectangle, lw: Float, arc: Float) {
 
+    }
+
+    override fun installUI(c: JComponent?) {
+        super.installUI(c)
+
+    }
+
+    override fun createPopup(): ComboPopup {
+        return AComboPopup(comboBox)
     }
 
     override fun createArrowButton(): JButton {

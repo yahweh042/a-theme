@@ -1,13 +1,26 @@
 package com.troy.theme
 
 import java.awt.Graphics
-import javax.swing.JComponent
+import java.awt.Rectangle
+import javax.swing.*
 import javax.swing.plaf.basic.BasicListUI
 
 class AList : BasicListUI() {
 
     override fun paint(g: Graphics, c: JComponent) {
 
+    }
+
+    override fun paintCell(
+        g: Graphics?,
+        row: Int,
+        rowBounds: Rectangle?,
+        cellRenderer: ListCellRenderer<Any>?,
+        dataModel: ListModel<Any>?,
+        selModel: ListSelectionModel?,
+        leadIndex: Int
+    ) {
+        super.paintCell(g, row, rowBounds, cellRenderer, dataModel, selModel, leadIndex)
     }
 
     override fun updateLayoutState() {

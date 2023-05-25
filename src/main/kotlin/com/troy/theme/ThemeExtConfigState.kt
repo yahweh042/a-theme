@@ -31,7 +31,6 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
 
         defaults["CheckBoxUI"] = ACheckBoxUI::class.java.name
         defaults[ACheckBoxUI::class.java.name] = ACheckBoxUI::class.java
-
         defaults["CheckBox.border"] = ACheckBoxBorder()
 
         defaults["MenuItem.evenHeight"] = true
@@ -39,21 +38,23 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         // defaults["ListUI"] = AList::class.java.name
         // defaults[AList::class.java.name] = AList::class.java
 
-        applyButtonStyle(defaults)
-        applyComboBoxStyle(defaults)
+        // applyButtonStyle(defaults)
+        // applyComboBoxStyle(defaults)
 
-        defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
-        defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
+        // defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
+        // defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
 
-        defaults["PopupMenuUI"] = APopupMenuUI::class.java.name
-        defaults[APopupMenuUI::class.java.name] = APopupMenuUI::class.java
+        // defaults["PopupMenuUI"] = APopupMenuUI::class.java.name
+        // defaults[APopupMenuUI::class.java.name] = APopupMenuUI::class.java
 
-        val menuBorder = AMenuItemBorder()
-        defaults["MenuItem.border"] = menuBorder
-        defaults["Menu.border"] = menuBorder
+        // val menuBorder = AMenuItemBorder()
+        // defaults["MenuItem.border"] = menuBorder
+        // defaults["Menu.border"] = menuBorder
 
         applyRadioButtonStyle(defaults)
-        applyFieldStyle(defaults)
+        // applyFieldStyle(defaults)
+
+        applyPopupMenuState(defaults)
 
         LafManager.getInstance().updateUI()
     }
@@ -108,6 +109,13 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults[AFieldUI::class.java.name] = AFieldUI::class.java
     }
 
+    private fun applyPopupMenuState(defaults: UIDefaults) {
+
+        defaults["PopupMenu.borderCornerRadius"] = state.popupMenuState.borderCornerRadius
+        defaults["PopupMenu.Selection.arc"] = state.popupMenuState.selectionArc
+
+    }
+
     companion object {
 
         @JvmStatic
@@ -123,5 +131,11 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         var buttonStyle: String? = "Material",
         var fieldStyle: String = "Material",
         var comboBoxStyle: String? = "Material",
+        var popupMenuState: PopupMenuState = PopupMenuState()
+    )
+
+    data class PopupMenuState(
+        var borderCornerRadius: Int = 8,
+        var selectionArc: Int = 8
     )
 }
