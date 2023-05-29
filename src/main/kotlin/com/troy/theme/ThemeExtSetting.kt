@@ -13,21 +13,37 @@ class ThemeExtSetting : SearchableConfigurable {
 
     private val panel = panel {
         group("List") {
-            row("ListRowHeight:") {
+            row("RowHeight:") {
                 intTextField().bindIntText(state::listRowHeight)
             }
         }
-        row("TreeRowHeight:") {
-            intTextField().bindIntText(state::treeRowHeight)
+        group("Tree") {
+            row("RowHeight:") {
+                intTextField().bindIntText(state::treeRowHeight)
+            }
+            row("SelectionArc:") {
+                intTextField().bindIntText(state::treeSelectionArc)
+            }
         }
-        row("StatusBarHeight:") {
-            intTextField().bindIntText(state::statusBarHeight)
+        group("StatusBar") {
+            row("Height:") {
+                intTextField().bindIntText(state::statusBarHeight)
+            }
         }
-        row("ButtonStyle:") {
-            comboBox(items).bindItem(state::buttonStyle)
+        group("Button") {
+            row("Style:") {
+                comboBox(items).bindItem(state::buttonStyle)
+            }
         }
-        row("ComboBoxStyle:") {
-            comboBox(items).bindItem(state::comboBoxStyle)
+        group("ComboBox") {
+            row("Style:") {
+                comboBox(items).bindItem(state::comboBoxStyle)
+            }
+        }
+        group("Field") {
+            row("Style:") {
+                comboBox(items).bindItem(state::fieldStyle)
+            }
         }
         group("PopupMenu") {
             row("BorderCornerRadius") {

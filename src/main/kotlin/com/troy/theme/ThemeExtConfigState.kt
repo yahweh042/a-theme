@@ -135,15 +135,16 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     data class ThemeExtConfig(
         var listRowHeight: Int = 24,
         var treeRowHeight: Int = 24,
+        var treeSelectionArc: Int = 5,
         var statusBarHeight: Int = 24,
         var buttonStyle: String? = "Material",
-        var fieldStyle: String = "Material",
+        var fieldStyle: String? = "Material",
         var comboBoxStyle: String? = "Material",
         var popupMenuState: PopupMenuState = PopupMenuState()
     )
 
     data class PopupMenuState(
-        var borderCornerRadius: Int = 8,
-        var selectionArc: Int = 8
+        var borderCornerRadius: Int = 5,
+        var selectionArc: Int = 5
     )
 }

@@ -53,9 +53,9 @@ class AComboBoxUI : DarculaComboBoxUI() {
 
     }
 
-    override fun createPopup(): ComboPopup {
-        return AComboPopup(comboBox)
-    }
+    // override fun createPopup(): ComboPopup {
+    //     return AComboPopup(comboBox)
+    // }
 
     override fun createArrowButton(): JButton {
         val bg = comboBox.background
