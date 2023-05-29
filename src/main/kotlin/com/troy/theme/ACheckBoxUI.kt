@@ -9,6 +9,11 @@ import javax.swing.JComponent
 
 class ACheckBoxUI : DarculaCheckBoxUI() {
 
+    override fun installDefaults(b: AbstractButton) {
+        super.installDefaults(b)
+        AThemeUtils.setHandCursor(b)
+    }
+
     override fun drawCheckIcon(
         c: JComponent,
         g: Graphics2D,
@@ -18,7 +23,6 @@ class ACheckBoxUI : DarculaCheckBoxUI() {
         enabled: Boolean
     ) {
         val g2 = g.create() as Graphics2D
-        AThemeUtils.setHandCursor(c)
         try {
             val iconName = if (isIndeterminate(b)) "checkBoxIndeterminate" else "checkBox"
             val op = DarculaUIUtil.getOutline(b)

@@ -1,9 +1,7 @@
 package com.troy.theme
 
 import com.intellij.ide.ui.LafManager
-import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonPainter
-import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonUI
-import com.intellij.ide.ui.laf.darcula.ui.DarculaComboBoxUI
+import com.intellij.ide.ui.laf.darcula.ui.*
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
@@ -29,17 +27,19 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["List.rowHeight"] = JBUIScale.scale(state.listRowHeight)
         defaults["Tree.rowHeight"] = JBUIScale.scale(state.treeRowHeight)
 
-        defaults["CheckBoxUI"] = ACheckBoxUI::class.java.name
-        defaults[ACheckBoxUI::class.java.name] = ACheckBoxUI::class.java
-        defaults["CheckBox.border"] = ACheckBoxBorder()
+        applyButtonStyle(defaults)
+        applyComboBoxStyle(defaults)
 
-        defaults["MenuItem.evenHeight"] = true
+        applyCheckBoxStyle(defaults)
+        applyRadioButtonStyle(defaults)
+
+        applyPopupMenuState(defaults)
+
+        // defaults["MenuItem.evenHeight"] = true
 
         // defaults["ListUI"] = AList::class.java.name
         // defaults[AList::class.java.name] = AList::class.java
 
-        // applyButtonStyle(defaults)
-        // applyComboBoxStyle(defaults)
 
         // defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
         // defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
@@ -51,42 +51,31 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         // defaults["MenuItem.border"] = menuBorder
         // defaults["Menu.border"] = menuBorder
 
-        applyRadioButtonStyle(defaults)
-        // applyFieldStyle(defaults)
-
-        applyPopupMenuState(defaults)
+        applyFieldStyle(defaults)
 
         LafManager.getInstance().updateUI()
     }
 
     private fun applyButtonStyle(defaults: UIDefaults) {
-        when (state.buttonStyle) {
-            "Material" -> {
-                defaults["ButtonUI"] = AButtonUI::class.java.name
-                defaults[AButtonUI::class.java.name] = AButtonUI::class.java
-                defaults["Button.border"] = AButtonBorder()
-            }
-
-            else -> {
-                defaults["ButtonUI"] = DarculaButtonUI::class.java.name
-                defaults[DarculaButtonUI::class.java.name] = DarculaButtonUI::class.java
-                defaults["Button.border"] = DarculaButtonPainter()
-            }
+        defaults["ButtonUI"] = when (state.buttonStyle) {
+            "Material" -> AButtonUI::class.java.name
+            else -> DarculaButtonUI::class.java.name
         }
+        defaults["Button.border"] = when (state.buttonStyle) {
+            "Material" -> AButtonBorder()
+            else -> DarculaButtonPainter()
+        }
+        defaults[AButtonUI::class.java.name] = AButtonUI::class.java
+        defaults[DarculaButtonUI::class.java.name] = DarculaButtonUI::class.java
     }
 
     private fun applyComboBoxStyle(defaults: UIDefaults) {
-        when (state.comboBoxStyle) {
-            "Material" -> {
-                defaults["ComboBoxUI"] = AComboBoxUI::class.java.name
-                defaults[AComboBoxUI::class.java.name] = AComboBoxUI::class.java
-            }
-
-            else -> {
-                defaults["ComboBoxUI"] = DarculaComboBoxUI::class.java.name
-                defaults[DarculaComboBoxUI::class.java.name] = DarculaComboBoxUI::class.java
-            }
+        defaults["ComboBoxUI"] = when (state.comboBoxStyle) {
+            "Material" -> AComboBoxUI::class.java.name
+            else -> DarculaComboBoxUI::class.java.name
         }
+        defaults[AComboBoxUI::class.java.name] = AComboBoxUI::class.java
+        defaults[DarculaComboBoxUI::class.java.name] = DarculaComboBoxUI::class.java
     }
 
     private fun applyRadioButtonStyle(defaults: UIDefaults) {
@@ -94,30 +83,45 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults[ARadioButtonUI::class.java.name] = ARadioButtonUI::class.java
     }
 
+    private fun applyCheckBoxStyle(defaults: UIDefaults) {
+        defaults["CheckBoxUI"] = ACheckBoxUI::class.java.name
+        defaults[ACheckBoxUI::class.java.name] = ACheckBoxUI::class.java
+        defaults["CheckBox.border"] = ACheckBoxBorder()
+    }
 
     private fun applyFieldStyle(defaults: UIDefaults) {
-        val fieldBorder = AFieldBorder()
-
+        val fieldBorder = when (state.fieldStyle) {
+            "Material" -> AFieldBorder()
+            else -> DarculaTextBorder()
+        }
         defaults["FormattedTextField.border"] = fieldBorder
         defaults["PasswordField.border"] = fieldBorder
         defaults["TextField.border"] = fieldBorder
         defaults["EditorTextField.border"] = fieldBorder
 
-        defaults["FormattedTextFieldUI"] = AFieldUI::class.java.name
-        defaults["PasswordFieldUI"] = AFieldUI::class.java.name
-        defaults["TextFieldUI"] = AFieldUI::class.java.name
+        val className = when (state.fieldStyle) {
+            "Material" -> DarculaTextFieldUI::class.java.name
+            else -> AFieldUI::class.java.name
+        }
+        defaults["FormattedTextFieldUI"] = className
+        defaults["PasswordFieldUI"] = className
+        defaults["TextFieldUI"] = className
+
+        defaults[DarculaTextFieldUI::class.java.name] = DarculaTextFieldUI::class.java
         defaults[AFieldUI::class.java.name] = AFieldUI::class.java
     }
 
     private fun applyPopupMenuState(defaults: UIDefaults) {
-
         defaults["PopupMenu.borderCornerRadius"] = state.popupMenuState.borderCornerRadius
         defaults["PopupMenu.Selection.arc"] = state.popupMenuState.selectionArc
-
+        defaults["Popup.Selection.arc"] = 5
         defaults["Button.ToolWindow.arc"] = 5
         defaults["Menu.Selection.arc"] = 5
         defaults["GotItTooltip.arc"] = 5
         defaults["Tree.Selection.arc"] = 5
+        defaults["Notification.arc"] = 5
+        defaults["ComboBox.arc"] = 5
+        defaults["ToolTip.arc"] = 5
     }
 
     companion object {
