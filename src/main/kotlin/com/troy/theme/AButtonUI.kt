@@ -22,6 +22,11 @@ import javax.swing.JComponent
 
 class AButtonUI : DarculaButtonUI() {
 
+    override fun installDefaults(b: AbstractButton) {
+        super.installDefaults(b)
+        AThemeUtils.setHandCursor(b)
+    }
+
     override fun getDarculaButtonSize(component: JComponent, prefSize: Dimension): Dimension {
         val insets = component.insets
         val size = ObjectUtils.notNull(prefSize, JBUI.emptySize())
@@ -48,8 +53,6 @@ class AButtonUI : DarculaButtonUI() {
 
     override fun paintDecorations(g: Graphics2D, c: JComponent): Boolean {
         val button = c as AbstractButton
-
-        AThemeUtils.setHandCursor(c)
         val r = Rectangle(button.size)
         if (isCustomBar(c)) {
             return paintButtonDecorations(g, c, JBColor.BLACK)
@@ -74,9 +77,13 @@ class AButtonUI : DarculaButtonUI() {
             )
             g2.translate(r.x, r.y)
             val bw: Float = if (isSmallVariant(c) || isGotItButton(c)) 0f else DarculaUIUtil.BW.float
-            val arc = if (isTag(c)) r.height - bw * 2 else 5f
+            val arc = if (isTag(c)) r.height - bw * 2 else DarculaUIUtil.BUTTON_ARC.float
             if (c.isEnabled) {
-                g2.paint = if (c.hasFocus()) JBUI.CurrentTheme.Focus.focusColor() else getBackground(c, r)
+                g2.paint =
+                    if (c.hasFocus()) JBUI.CurrentTheme.Button.focusBorderColor(isDefaultButton(c)) else getBackground(
+                        c,
+                        r
+                    )
                 g2.fill(RoundRectangle2D.Float(0f, 0f, r.width.toFloat(), r.height.toFloat(), arc, arc))
             }
         } finally {
@@ -88,26 +95,39 @@ class AButtonUI : DarculaButtonUI() {
 
     private fun getBackground(c: JComponent, r: Rectangle): Paint {
         val backgroundColor = c.getClientProperty("JButton.backgroundColor") as Color?
-        return backgroundColor
-            ?: if (isDefaultButton(c)) UIUtil.getGradientPaint(
-                0f, 0f,
-                defaultButtonColorStart, 0f, r.height.toFloat(),
+        return backgroundColor ?: when {
+            isDefaultButton(c) -> UIUtil.getGradientPaint(
+                0f,
+                0f,
+                defaultButtonColorStart,
+                0f,
+                r.height.toFloat(),
                 defaultButtonColorEnd
-            ) else if (isSmallVariant(c)) JBColor.namedColor(
+            )
+
+            isSmallVariant(c) -> JBColor.namedColor(
                 "ComboBoxButton.background",
                 JBColor.namedColor("Button.darcula.smallComboButtonBackground", UIUtil.getPanelBackground())
-            ) else if (isGotItButton(c)) UIUtil.getGradientPaint(
+            )
+
+            isGotItButton(c) -> UIUtil.getGradientPaint(
                 0f,
                 0f,
                 getGotItButtonColorStart(c),
                 0f,
                 r.height.toFloat(),
                 getGotItButtonColorEnd(c)
-            ) else UIUtil.getGradientPaint(
-                0f, 0f,
-                buttonColorStart, 0f, r.height.toFloat(),
+            )
+
+            else -> UIUtil.getGradientPaint(
+                0f,
+                0f,
+                buttonColorStart,
+                0f,
+                r.height.toFloat(),
                 buttonColorEnd
             )
+        }
     }
 
     private fun getGotItButtonColorStart(c: Component): Color {

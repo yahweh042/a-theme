@@ -57,25 +57,28 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     }
 
     private fun applyButtonStyle(defaults: UIDefaults) {
-        defaults["ButtonUI"] = when (state.buttonStyle) {
+        defaults["ButtonUI"] = when (state.buttonState.style) {
             "Material" -> AButtonUI::class.java.name
             else -> DarculaButtonUI::class.java.name
         }
-        defaults["Button.border"] = when (state.buttonStyle) {
+        defaults["Button.border"] = when (state.buttonState.style) {
             "Material" -> AButtonBorder()
             else -> DarculaButtonPainter()
         }
         defaults[AButtonUI::class.java.name] = AButtonUI::class.java
         defaults[DarculaButtonUI::class.java.name] = DarculaButtonUI::class.java
+
+        defaults["Button.arc"] = state.buttonState.arc
     }
 
     private fun applyComboBoxStyle(defaults: UIDefaults) {
-        defaults["ComboBoxUI"] = when (state.comboBoxStyle) {
+        defaults["ComboBoxUI"] = when (state.comboBoxState.style) {
             "Material" -> AComboBoxUI::class.java.name
             else -> DarculaComboBoxUI::class.java.name
         }
         defaults[AComboBoxUI::class.java.name] = AComboBoxUI::class.java
         defaults[DarculaComboBoxUI::class.java.name] = DarculaComboBoxUI::class.java
+        defaults["ComboBox.arc"] = state.comboBoxState.arc
     }
 
     private fun applyRadioButtonStyle(defaults: UIDefaults) {
@@ -120,7 +123,6 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["GotItTooltip.arc"] = 5
         defaults["Tree.Selection.arc"] = 5
         defaults["Notification.arc"] = 5
-        defaults["ComboBox.arc"] = 5
         defaults["ToolTip.arc"] = 5
     }
 
@@ -137,14 +139,32 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         var treeRowHeight: Int = 24,
         var treeSelectionArc: Int = 5,
         var statusBarHeight: Int = 24,
-        var buttonStyle: String? = "Material",
-        var fieldStyle: String? = "Material",
-        var comboBoxStyle: String? = "Material",
-        var popupMenuState: PopupMenuState = PopupMenuState()
+        var buttonStyle: String = "Material",
+        var fieldStyle: String = "Material",
+        var comboBoxStyle: String = "Material",
+        var popupMenuState: PopupMenuState = PopupMenuState(),
+        var comboBoxState: ComboBoxState = ComboBoxState(),
+        var buttonState: ButtonState = ButtonState(),
+        var treeState: TreeState = TreeState(),
     )
 
     data class PopupMenuState(
         var borderCornerRadius: Int = 5,
-        var selectionArc: Int = 5
+        var selectionArc: Int = 5,
+    )
+
+    data class ComboBoxState(
+        var style: String = "Material",
+        var arc: Int = 5,
+    )
+
+    data class ButtonState(
+        var style: String = "Material",
+        var arc: Int = 5,
+    )
+
+    data class TreeState(
+        var rowHeight: Int = 24,
+        var selectionArc: Int = 5,
     )
 }

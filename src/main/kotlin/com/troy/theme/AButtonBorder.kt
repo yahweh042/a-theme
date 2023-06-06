@@ -10,8 +10,5 @@ class AButtonBorder : DarculaButtonPainter() {
     override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
     }
 
-    companion object {
-        private val HELP_BUTTON_DIAMETER = JBValue.Float(22f)
-    }
 
 }

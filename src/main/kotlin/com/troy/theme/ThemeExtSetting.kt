@@ -4,6 +4,7 @@ import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.ui.dsl.builder.bindIntText
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.toNullableProperty
 import javax.swing.JComponent
 
 class ThemeExtSetting : SearchableConfigurable {
@@ -18,12 +19,14 @@ class ThemeExtSetting : SearchableConfigurable {
             }
         }
         group("Tree") {
-            row("RowHeight:") {
-                intTextField().bindIntText(state::treeRowHeight)
-            }
-            row("SelectionArc:") {
-                intTextField().bindIntText(state::treeSelectionArc)
-            }
+            twoColumnsRow(
+                {
+                    intTextField().label("RowHeight:").bindIntText(state.treeState::rowHeight)
+                },
+                {
+                    intTextField().label("SelectionArc:").bindIntText(state.treeState::selectionArc)
+                }
+            )
         }
         group("StatusBar") {
             row("Height:") {
@@ -31,27 +34,39 @@ class ThemeExtSetting : SearchableConfigurable {
             }
         }
         group("Button") {
-            row("Style:") {
-                comboBox(items).bindItem(state::buttonStyle)
-            }
+            twoColumnsRow(
+                {
+                    comboBox(items).label("Style:").bindItem(state.buttonState::style.toNullableProperty())
+
+                },
+                {
+                    intTextField().label("Arc:").bindIntText(state.buttonState::arc)
+                }
+            )
         }
         group("ComboBox") {
-            row("Style:") {
-                comboBox(items).bindItem(state::comboBoxStyle)
-            }
+            twoColumnsRow(
+                {
+                    comboBox(items).label("Style:").bindItem(state.comboBoxState::style.toNullableProperty())
+                },
+                {
+                    intTextField().label("Arc:").bindIntText(state.comboBoxState::arc)
+                })
         }
         group("Field") {
             row("Style:") {
-                comboBox(items).bindItem(state::fieldStyle)
+                comboBox(items).bindItem(state::fieldStyle.toNullableProperty())
             }
         }
         group("PopupMenu") {
-            row("BorderCornerRadius") {
-                intTextField().bindIntText(state.popupMenuState::borderCornerRadius)
-            }
-            row("SelectionCornerRadius") {
-                intTextField().bindIntText(state.popupMenuState::selectionArc)
-            }
+            twoColumnsRow(
+                {
+                    intTextField().label("BorderCornerRadius:").bindIntText(state.popupMenuState::borderCornerRadius)
+                },
+                {
+                    intTextField().label("SelectionArc:").bindIntText(state.popupMenuState::selectionArc)
+                }
+            )
         }
     }
 

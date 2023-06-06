@@ -1,7 +1,12 @@
 package com.troy.theme
 
 import com.intellij.ide.AppLifecycleListener
+import com.intellij.ide.ui.AntialiasingType
+import com.intellij.ide.ui.UISettings
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.editor.ex.util.EditorUIUtil
+import com.intellij.openapi.fileEditor.FileEditorManager
+import kotlinx.serialization.json.Json
 import javax.swing.UIManager
 
 class StartListener : AppLifecycleListener {
@@ -12,6 +17,12 @@ class StartListener : AppLifecycleListener {
 
         // replaceStripeButton()
 
+        // replaceAntialiasingType()
+
+        replaceSunHint()
+
+        println(AntialiasingType.GREYSCALE)
+
         ApplicationManager.getApplication().invokeAndWait {
             ThemeExtConfigState.getInstance().applyChange()
         }
@@ -21,6 +32,8 @@ class StartListener : AppLifecycleListener {
                 ThemeExtConfigState.getInstance().applyChange()
             }
         }
+
+        // EditorUIUtil.setupAntialiasing()
 
     }
 
