@@ -2,6 +2,7 @@ package com.troy.theme
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
+import com.intellij.ide.ui.laf.darcula.DarculaUIUtil.Outline
 import com.intellij.ide.ui.laf.darcula.ui.DarculaComboBoxUI
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.util.text.StringUtil
@@ -13,39 +14,50 @@ import com.intellij.util.ui.JBInsets
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.StartupUiUtil
 import java.awt.*
-import java.awt.geom.Line2D
+import java.awt.geom.Path2D
 import javax.swing.*
 import javax.swing.border.Border
 import javax.swing.plaf.basic.BasicArrowButton
-import javax.swing.plaf.basic.ComboPopup
 
 
 class AComboBoxUI : DarculaComboBoxUI() {
 
     private val myBorderCompensation: Insets = JBUI.insets(DEFAULT_BORDER_COMPENSATION)
+    private val myArc: Int = ThemeExtConfigState.getInstance().state.comboBoxState.arc
 
-    override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
-        if (c !is JComponent) return
-        val g2 = g.create() as Graphics2D
-        val r = Rectangle(x, y, width, height)
-        try {
-            checkFocus()
-            AThemeUtils.setBorderStyle(g2, comboBox.isEnabled, comboBox.hasFocus())
-            g2.draw(
-                Line2D.Double(
-                    r.x.toDouble(),
-                    (r.height - 1).toDouble(),
-                    (r.x + r.width).toDouble(),
-                    (r.height - 1).toDouble()
-                )
-            )
-        } finally {
-            g2.dispose()
-        }
-    }
+    // override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
+    //     if (c !is JComponent) return
+    //     val g2 = g.create() as Graphics2D
+    //     val r = Rectangle(x, y, width, height)
+    //     try {
+    //         checkFocus()
+    //         AThemeUtils.setBorderStyle(g2, comboBox.isEnabled, comboBox.hasFocus())
+    //         g2.draw(
+    //             Line2D.Double(
+    //                 r.x.toDouble(),
+    //                 (r.height - 1).toDouble(),
+    //                 (r.x + r.width).toDouble(),
+    //                 (r.height - 1).toDouble()
+    //             )
+    //         )
+    //     } finally {
+    //         g2.dispose()
+    //     }
+    // }
 
     override fun paintBorder(c: Component, g2: Graphics2D, bw: Float, r: Rectangle, lw: Float, arc: Float) {
+        val border: Path2D = Path2D.Float(Path2D.WIND_EVEN_ODD)
+        border.append(getOuterShape(r, 1.0f, arc), false)
 
+        val arc0 = if (arc > lw) arc - lw else 0.0f
+        border.append(getInnerShape(r, 1.0f, lw, arc0), false)
+
+        if (hasFocus && DarculaUIUtil.isBorderless(c)) {
+            Outline.focus.setGraphicsColor(g2, true)
+        } else {
+            g2.color = DarculaUIUtil.getOutlineColor(c.isEnabled, hasFocus)
+        }
+        g2.fill(border)
     }
 
     override fun installUI(c: JComponent?) {

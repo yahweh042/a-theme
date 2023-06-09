@@ -2,13 +2,30 @@ package com.troy.theme
 
 import com.intellij.openapi.wm.impl.status.StatusBarUI
 import com.intellij.util.ui.JBUI
-import java.awt.Dimension
-import java.awt.Graphics
-import java.awt.Graphics2D
-import java.awt.Rectangle
+import java.awt.*
 import javax.swing.JComponent
+import javax.swing.border.Border
 
 class AStatusBarUI : StatusBarUI() {
+
+    override fun installUI(c: JComponent) {
+        super.installUI(c)
+        c.border = object : Border {
+            override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
+                g.color = background
+                g.fillRect(x, y, width, height)
+            }
+
+            override fun getBorderInsets(c: Component?): Insets {
+                return JBUI.insets(4, 2)
+            }
+
+            override fun isBorderOpaque(): Boolean {
+                return true
+            }
+
+        }
+    }
 
     override fun paint(g: Graphics, c: JComponent) {
         val g2d = g.create() as Graphics2D

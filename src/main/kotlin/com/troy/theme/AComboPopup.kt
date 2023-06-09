@@ -21,52 +21,7 @@ class AComboPopup(comboBox: JComboBox<Any>) : BasicComboPopup(comboBox) {
 
     override fun updateUI() {
         setUI(object : BasicPopupMenuUI() {
-            override fun uninstallDefaults() {}
-            override fun installDefaults() {
-                if (popupMenu.layout == null || popupMenu.layout is UIResource) {
-                    popupMenu.layout = DefaultMenuLayout(popupMenu, BoxLayout.Y_AXIS)
-                }
-                popupMenu.isOpaque = true
-                LookAndFeel.installColorsAndFont(
-                    popupMenu,
-                    "PopupMenu.background",
-                    "PopupMenu.foreground",
-                    "PopupMenu.font"
-                )
-            }
 
-            override fun getPopup(popup: JPopupMenu, x: Int, y: Int): Popup {
-                val factory = PopupFactory.getSharedInstance()
-                var oldType = -1
-                val isRoundBorder = WindowRoundedCornersManager.isAvailable()
-                if (isRoundBorder) {
-                    oldType = PopupUtil.getPopupType(factory)
-                    if (oldType == 2) {
-                        oldType = -1
-                    } else {
-                        PopupUtil.setPopupType(factory, 2)
-                    }
-                }
-                val p = super.getPopup(popup, x, y)
-                if (oldType >= 0) {
-                    PopupUtil.setPopupType(factory, oldType)
-                }
-                if (isRoundBorder) {
-                    val window = ComponentUtil.getWindow(popup)
-                    if (window != null) {
-                        if (SystemInfoRt.isMac && UIUtil.isUnderDarcula() || SystemInfoRt.isWindows) {
-                            WindowRoundedCornersManager.setRoundedCorners(
-                                window,
-                                JBUI.CurrentTheme.Popup.borderColor(true)
-                            )
-                            popup.border = null
-                        } else {
-                            WindowRoundedCornersManager.setRoundedCorners(window)
-                        }
-                    }
-                }
-                return p
-            }
         })
     }
 

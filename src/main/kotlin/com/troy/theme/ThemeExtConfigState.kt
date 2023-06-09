@@ -25,7 +25,6 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
     fun applyChange() {
         val defaults = UIManager.getDefaults()
         defaults["List.rowHeight"] = JBUIScale.scale(state.listRowHeight)
-        defaults["Tree.rowHeight"] = JBUIScale.scale(state.treeRowHeight)
 
         applyButtonStyle(defaults)
         applyComboBoxStyle(defaults)
@@ -41,8 +40,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         // defaults[AList::class.java.name] = AList::class.java
 
 
-        // defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
-        // defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
+        defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
+        defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
 
         // defaults["PopupMenuUI"] = APopupMenuUI::class.java.name
         // defaults[APopupMenuUI::class.java.name] = APopupMenuUI::class.java
@@ -51,8 +50,11 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         // defaults["MenuItem.border"] = menuBorder
         // defaults["Menu.border"] = menuBorder
 
-        applyFieldStyle(defaults)
+        defaults["ScrollBar"] = AScrollBar::class.java.name
+        defaults[AScrollBar::class.java.name] = AScrollBar::class.java
 
+        applyFieldStyle(defaults)
+        applyTreeState(defaults)
         LafManager.getInstance().updateUI()
     }
 
@@ -103,8 +105,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["EditorTextField.border"] = fieldBorder
 
         val className = when (state.fieldStyle) {
-            "Material" -> DarculaTextFieldUI::class.java.name
-            else -> AFieldUI::class.java.name
+            "Material" -> AFieldUI::class.java.name
+            else -> DarculaTextFieldUI::class.java.name
         }
         defaults["FormattedTextFieldUI"] = className
         defaults["PasswordFieldUI"] = className
@@ -121,9 +123,13 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         defaults["Button.ToolWindow.arc"] = 5
         defaults["Menu.Selection.arc"] = 5
         defaults["GotItTooltip.arc"] = 5
-        defaults["Tree.Selection.arc"] = 5
         defaults["Notification.arc"] = 5
         defaults["ToolTip.arc"] = 5
+    }
+
+    private fun applyTreeState(defaults: UIDefaults) {
+        defaults["Tree.rowHeight"] = state.treeState.rowHeight
+        defaults["Tree.Selection.arc"] = state.treeState.selectionArc
     }
 
     companion object {
@@ -136,12 +142,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
 
     data class ThemeExtConfig(
         var listRowHeight: Int = 24,
-        var treeRowHeight: Int = 24,
-        var treeSelectionArc: Int = 5,
         var statusBarHeight: Int = 24,
-        var buttonStyle: String = "Material",
         var fieldStyle: String = "Material",
-        var comboBoxStyle: String = "Material",
         var popupMenuState: PopupMenuState = PopupMenuState(),
         var comboBoxState: ComboBoxState = ComboBoxState(),
         var buttonState: ButtonState = ButtonState(),
