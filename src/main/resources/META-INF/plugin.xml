@@ -28,7 +28,6 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <!--<themeProvider id="aa3b5a9f-2175-414b-be83-6a651d1e7e00" path="/Material.theme.json"/>-->
         <applicationService serviceImplementation="com.troy.theme.ThemeExtConfigState" id="ThemeConfig"/>
         <applicationConfigurable instance="com.troy.theme.ThemeExtSetting" />
     </extensions>

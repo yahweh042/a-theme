@@ -40,8 +40,8 @@ class ThemeExtConfigState : PersistentStateComponent<ThemeExtConfigState.ThemeEx
         // defaults[AList::class.java.name] = AList::class.java
 
 
-        defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
-        defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
+        // defaults["IdeStatusBarUI"] = AStatusBarUI::class.java.name
+        // defaults[AStatusBarUI::class.java.name] = AStatusBarUI::class.java
 
         // defaults["PopupMenuUI"] = APopupMenuUI::class.java.name
         // defaults[APopupMenuUI::class.java.name] = APopupMenuUI::class.java

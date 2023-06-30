@@ -10,21 +10,21 @@ class AStatusBarUI : StatusBarUI() {
 
     override fun installUI(c: JComponent) {
         super.installUI(c)
-        c.border = object : Border {
-            override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
-                g.color = background
-                g.fillRect(x, y, width, height)
-            }
-
-            override fun getBorderInsets(c: Component?): Insets {
-                return JBUI.insets(4, 2)
-            }
-
-            override fun isBorderOpaque(): Boolean {
-                return true
-            }
-
-        }
+        // c.border = object : Border {
+        //     override fun paintBorder(c: Component, g: Graphics, x: Int, y: Int, width: Int, height: Int) {
+        //         g.color = background
+        //         g.fillRect(x, y, width, height)
+        //     }
+        //
+        //     override fun getBorderInsets(c: Component?): Insets {
+        //         return JBUI.insets(4, 2)
+        //     }
+        //
+        //     override fun isBorderOpaque(): Boolean {
+        //         return true
+        //     }
+        //
+        // }
     }
 
     override fun paint(g: Graphics, c: JComponent) {

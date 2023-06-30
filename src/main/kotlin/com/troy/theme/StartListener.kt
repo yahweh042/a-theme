@@ -19,9 +19,7 @@ class StartListener : AppLifecycleListener {
 
         // replaceAntialiasingType()
 
-        replaceSunHint()
-
-        println(AntialiasingType.GREYSCALE)
+        // replaceSunHint()
 
         ApplicationManager.getApplication().invokeAndWait {
             ThemeExtConfigState.getInstance().applyChange()

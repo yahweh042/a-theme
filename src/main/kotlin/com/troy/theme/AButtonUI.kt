@@ -79,11 +79,10 @@ class AButtonUI : DarculaButtonUI() {
             val bw: Float = if (isSmallVariant(c) || isGotItButton(c)) 0f else DarculaUIUtil.BW.float
             val arc = if (isTag(c)) r.height - bw * 2 else DarculaUIUtil.BUTTON_ARC.float
             if (c.isEnabled) {
-                g2.paint =
-                    if (c.hasFocus()) JBUI.CurrentTheme.Button.focusBorderColor(isDefaultButton(c)) else getBackground(
-                        c,
-                        r
-                    )
+                g2.paint = when {
+                    c.hasFocus() -> JBUI.CurrentTheme.Button.focusBorderColor(isDefaultButton(c))
+                    else -> getBackground(c, r)
+                }
                 g2.fill(RoundRectangle2D.Float(0f, 0f, r.width.toFloat(), r.height.toFloat(), arc, arc))
             }
         } finally {

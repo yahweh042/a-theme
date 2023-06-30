@@ -1,6 +1,9 @@
 package com.troy.theme
 
 import com.intellij.openapi.options.SearchableConfigurable
+import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.ui.popup.ListSeparator
+import com.intellij.ui.GroupedComboBoxRenderer
 import com.intellij.ui.dsl.builder.bindIntText
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel

@@ -7,7 +7,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.MacUIUtil
 import java.awt.*
 import java.awt.geom.Path2D
-import java.awt.geom.RoundRectangle2D
 import javax.swing.JComponent
 import javax.swing.text.JTextComponent
 
@@ -30,17 +29,13 @@ class AFieldBorder : DarculaTextBorder() {
         val g2 = g.create() as Graphics2D
         try {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-            g2.setRenderingHint(
-                RenderingHints.KEY_STROKE_CONTROL,
-                if (MacUIUtil.USE_QUARTZ) RenderingHints.VALUE_STROKE_PURE else RenderingHints.VALUE_STROKE_NORMALIZE
-            )
+            g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE)
             JBInsets.removeFrom(r, JBUI.insets(1))
             g2.translate(r.x, r.y)
             val arc = DarculaUIUtil.COMPONENT_ARC.get().toFloat()
-            val outerShape: Shape = RoundRectangle2D.Float(0f, 0f, r.width.toFloat(), r.height.toFloat(), arc, arc)
             val path: Path2D = Path2D.Float(Path2D.WIND_EVEN_ODD)
-            path.append(outerShape, false)
-            path.append(RoundRectangle2D.Float(1f, 1f, r.width - 2f, r.height - 2f, arc, arc), false)
+            path.append(AThemeUtils.getOuterShape(r, 1f, arc), false)
+            path.append(AThemeUtils.getInnerShape(r, 1f, 1f, arc), false)
             g2.color = DarculaUIUtil.getOutlineColor(c.isEnabled, c.hasFocus())
             g2.fill(path)
         } finally {
